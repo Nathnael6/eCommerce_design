@@ -12,7 +12,7 @@ CREATE TABLE Users (
     city VARCHAR(50),
     state VARCHAR(50),
     zip_code VARCHAR(10),
-    last_login DAaTETIME,
+    last_login DATETIME,
     MFA_enabled BOOLEAN DEFAULT FALSE
 );
 
