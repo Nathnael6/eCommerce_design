@@ -1,7 +1,7 @@
-DROP DATABASE IF EXISTS online_car_marketplace;
 CREATE DATABASE online_car_marketplace;
-
 USE online_car_marketplace;
+
+-- TABLES
 
 CREATE TABLE Users (
     UserID INT AUTO_INCREMENT PRIMARY KEY,

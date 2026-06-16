@@ -1,74 +1,367 @@
-USE online_car_marketplace;
+-- ═══════════════════════════════════════════════════════════════════
+-- DATA — inserted in strict dependency order
+-- Users → Seller/Customer → Vehicle → ConditionInfo →
+-- Listing → Inventory → Transactions → Payment → Deliveries → Review
+-- ═══════════════════════════════════════════════════════════════════
 
--- Users
-INSERT INTO Users
-(first_name, last_name, email, street_address, city, state, zip_code, last_login, MFA_enabled)
-VALUES
-('John', 'Smith', 'john.smith@email.com', '123 Main St', 'Seattle', 'WA', '98101', NOW(), TRUE),
-('Sarah', 'Johnson', 'sarah.j@email.com', '456 Pine St', 'Bellevue', 'WA', '98004', NOW(), FALSE),
-('Michael', 'Brown', 'michael.b@email.com', '789 Oak Ave', 'Everett', 'WA', '98201', NOW(), TRUE),
-('Emma', 'Davis', 'emma.d@email.com', '321 Cedar Rd', 'Lynnwood', 'WA', '98036', NOW(), FALSE),
-('David', 'Wilson', 'david.w@email.com', '654 Maple Dr', 'Bothell', 'WA', '98011', NOW(), TRUE),
-('Olivia', 'Martinez', 'olivia.m@email.com', '111 Lake St', 'Kirkland', 'WA', '98033', NOW(), TRUE),
-('James', 'Anderson', 'james.a@email.com', '222 Hill Ave', 'Tacoma', 'WA', '98402', NOW(), FALSE),
-('Sophia', 'Lee', 'sophia.lee@email.com', '333 Market St', 'Redmond', 'WA', '98052', NOW(), TRUE),
-('Daniel', 'Garcia', 'daniel.g@email.com', '444 River Rd', 'Renton', 'WA', '98057', NOW(), FALSE),
-('Mia', 'Thomas', 'mia.t@email.com', '555 Sunset Blvd', 'Kent', 'WA', '98030', NOW(), TRUE);
+-- AI TRANSPARANCY STATEMENT: THIS DATA WAS GENERATED WITH AI ASSISTANCE AFTER THEY WERE PROVIDED THE TABLE DDL
+-- ─────────────────────────────────────────────────────────────────
+-- USERS  (50 total — UserIDs 1–50)
+-- ─────────────────────────────────────────────────────────────────
+INSERT INTO Users (first_name, last_name, email, street_address, city, state, zip_code, last_login, MFA_enabled) VALUES
+-- Original 10 (UserIDs 1–10)
+('John',    'Smith',    'john.smith@email.com',    '123 Main St',       'Seattle',   'WA', '98101', NOW(), TRUE),
+('Sarah',   'Johnson',  'sarah.j@email.com',       '456 Pine St',       'Bellevue',  'WA', '98004', NOW(), FALSE),
+('Michael', 'Brown',    'michael.b@email.com',     '789 Oak Ave',       'Everett',   'WA', '98201', NOW(), TRUE),
+('Emma',    'Davis',    'emma.d@email.com',        '321 Cedar Rd',      'Lynnwood',  'WA', '98036', NOW(), FALSE),
+('David',   'Wilson',   'david.w@email.com',       '654 Maple Dr',      'Bothell',   'WA', '98011', NOW(), TRUE),
+('Olivia',  'Martinez', 'olivia.m@email.com',      '111 Lake St',       'Kirkland',  'WA', '98033', NOW(), TRUE),
+('James',   'Anderson', 'james.a@email.com',       '222 Hill Ave',      'Tacoma',    'WA', '98402', NOW(), FALSE),
+('Sophia',  'Lee',      'sophia.lee@email.com',    '333 Market St',     'Redmond',   'WA', '98052', NOW(), TRUE),
+('Daniel',  'Garcia',   'daniel.g@email.com',      '444 River Rd',      'Renton',    'WA', '98057', NOW(), FALSE),
+('Mia',     'Thomas',   'mia.t@email.com',         '555 Sunset Blvd',   'Kent',      'WA', '98030', NOW(), TRUE),
+-- Trend batch 1: Jan–Jun 2025 (UserIDs 11–20)
+('Liam',    'Walker',   'liam.w@email.com',        '101 Birch Ln',      'Seattle',   'WA', '98103', '2025-01-05', FALSE),
+('Aisha',   'Patel',    'aisha.p@email.com',       '202 Fir St',        'Bellevue',  'WA', '98005', '2025-01-18', FALSE),
+('Carlos',  'Nguyen',   'carlos.n@email.com',      '303 Elm Ave',       'Redmond',   'WA', '98053', '2025-02-02', FALSE),
+('Priya',   'Kim',      'priya.k@email.com',       '404 Walnut Blvd',   'Kirkland',  'WA', '98034', '2025-02-14', FALSE),
+('Tyler',   'Robinson', 'tyler.r@email.com',       '505 Spruce Dr',     'Bothell',   'WA', '98012', '2025-03-01', TRUE),
+('Fatima',  'Hassan',   'fatima.h@email.com',      '606 Cedar Way',     'Shoreline', 'WA', '98155', '2025-04-10', TRUE),
+('Ethan',   'Clark',    'ethan.c@email.com',       '707 Willow Ct',     'Renton',    'WA', '98058', '2025-04-22', FALSE),
+('Yuna',    'Park',     'yuna.p@email.com',        '808 Aspen Pl',      'Kent',      'WA', '98031', '2025-05-03', TRUE),
+('Marcus',  'Reed',     'marcus.r@email.com',      '909 Poplar St',     'Tacoma',    'WA', '98403', '2025-05-17', TRUE),
+('Destiny', 'Torres',   'destiny.t@email.com',     '1010 Oak Blvd',     'Everett',   'WA', '98202', '2025-06-01', TRUE),
+-- Trend batch 2: Jul–Dec 2025 (UserIDs 21–30)
+('Noah',    'Wright',   'noah.w@email.com',        '11 Maple Ct',       'Seattle',   'WA', '98106', '2025-07-08', TRUE),
+('Aaliyah', 'Scott',    'aaliyah.s@email.com',     '22 Cedar Ave',      'Bellevue',  'WA', '98007', '2025-07-19', TRUE),
+('Diego',   'Flores',   'diego.f@email.com',       '33 Pine Rd',        'Lynnwood',  'WA', '98037', '2025-08-05', TRUE),
+('Zoe',     'Adams',    'zoe.a@email.com',         '44 Oak St',         'Kirkland',  'WA', '98033', '2025-08-20', FALSE),
+('Ryan',    'Baker',    'ryan.b@email.com',        '55 Elm Blvd',       'Redmond',   'WA', '98052', '2025-09-02', TRUE),
+('Jasmine', 'Hall',     'jasmine.h@email.com',     '66 Birch Way',      'Bothell',   'WA', '98011', '2025-10-11', TRUE),
+('Kevin',   'Young',    'kevin.y@email.com',       '77 Fir Ln',         'Shoreline', 'WA', '98155', '2025-10-25', TRUE),
+('Amara',   'King',     'amara.k@email.com',       '88 Spruce Dr',      'Renton',    'WA', '98057', '2025-11-07', TRUE),
+('Jordan',  'Evans',    'jordan.e@email.com',      '99 Willow Ave',     'Kent',      'WA', '98030', '2025-11-20', TRUE),
+('Chloe',   'Murphy',   'chloe.m@email.com',       '1 Harbor Blvd',     'Tacoma',    'WA', '98402', '2025-12-01', TRUE),
+-- Expansion batch: 2024–2026 sign-ups (UserIDs 31–50)
+('Raj',     'Sharma',   'raj.sharma@email.com',    '123 Bellevue Way',  'Bellevue',  'WA', '98004', '2026-01-10', TRUE),
+('Sofia',   'Chen',     'sofia.chen@email.com',    '89 Capitol Hill Rd','Seattle',   'WA', '98105', '2026-02-05', TRUE),
+('Marcus',  'Hill',     'marcus.hill@email.com',   '417 Redmond Way',   'Redmond',   'WA', '98052', '2026-02-20', FALSE),
+('Layla',   'Robinson', 'layla.robinson@email.com','55 Kirkland Ave',   'Kirkland',  'WA', '98034', '2026-03-01', TRUE),
+('Andre',   'Williams', 'andre.williams@email.com','12 Tacoma Blvd',    'Tacoma',    'WA', '98402', '2026-03-15', TRUE),
+('Nadia',   'Hassan',   'nadia.hassan@email.com',  '330 Everett Ave',   'Everett',   'WA', '98201', '2026-04-01', TRUE),
+('Derek',   'Foster',   'derek.foster@email.com',  '201 196th St SW',   'Lynnwood',  'WA', '98036', '2026-04-10', FALSE),
+('Imani',   'Jackson',  'imani.jackson@email.com', '98 Bothell Way',    'Bothell',   'WA', '98011', '2026-04-22', TRUE),
+('Tyler',   'Brooks',   'tyler.brooks@email.com',  '750 Sunset Blvd',   'Renton',    'WA', '98057', '2026-05-01', TRUE),
+('Kezia',   'Osei',     'kezia.osei@email.com',    '44 Meeker St',      'Kent',      'WA', '98030', '2026-05-10', TRUE),
+('Brett',   'Nguyen',   'brett.nguyen@email.com',  '101 Birch Ln',      'Seattle',   'WA', '98103', '2024-03-10', FALSE),
+('Carmen',  'Lopez',    'carmen.lopez@email.com',  '202 Fir St',        'Bellevue',  'WA', '98005', '2024-04-15', FALSE),
+('Finn',    'OBrien',   'finn.obrien@email.com',   '303 Elm Ave',       'Redmond',   'WA', '98053', '2024-05-20', FALSE),
+('Grace',   'Liu',      'grace.liu@email.com',     '404 Walnut Blvd',   'Kirkland',  'WA', '98033', '2024-06-08', TRUE),
+('Hector',  'Vargas',   'hector.vargas@email.com', '505 Spruce Dr',     'Tacoma',    'WA', '98402', '2024-07-14', TRUE),
+('Isabel',  'Costa',    'isabel.costa@email.com',  '606 Cedar Way',     'Shoreline', 'WA', '98155', '2024-08-01', TRUE),
+('Jaxon',   'Price',    'jaxon.price@email.com',   '707 Willow Ct',     'Renton',    'WA', '98058', '2024-09-12', FALSE),
+('Kira',    'Patel',    'kira.patel@email.com',    '808 Aspen Pl',      'Bothell',   'WA', '98012', '2024-10-05', TRUE),
+('Leo',     'Nakamura', 'leo.nakamura@email.com',  '909 Poplar St',     'Everett',   'WA', '98202', '2024-11-18', TRUE),
+('Maya',    'Okafor',   'maya.okafor@email.com',   '1010 Oak Blvd',     'Lynnwood',  'WA', '98037', '2024-12-01', TRUE);
+-- UserIDs 1–50 confirmed
 
--- Customers
-INSERT INTO Customer
-(UserID, preferred_contact_method)
-VALUES
-(1, 'Email'),
-(2, 'Phone'),
-(4, 'Email'),
-(7, 'Email'),
-(8, 'Phone'),
-(9, 'Email'),
-(10, 'Text');
 
--- Sellers
-INSERT INTO Seller
-(UserID, seller_rating)
-VALUES
-(3, 4.8),
-(5, 4.5),
-(6, 4.7);
+-- ─────────────────────────────────────────────────────────────────
+-- SELLERS  (14 total — SellerIDs 1–14)
+-- UserIDs: 3,5,6 = original sellers; 11,13,15 = trend batch;
+--          31,33,35,38,41,44,47,50 = expansion batch
+-- ─────────────────────────────────────────────────────────────────
+INSERT INTO Seller (UserID, seller_rating) VALUES
+(3,  4.8),  -- SellerID 1  Michael Brown
+(5,  4.5),  -- SellerID 2  David Wilson
+(6,  4.7),  -- SellerID 3  Olivia Martinez
+(11, 4.2),  -- SellerID 4  Liam Walker
+(13, 4.9),  -- SellerID 5  Carlos Nguyen
+(15, 3.8),  -- SellerID 6  Tyler Robinson
+(31, 4.6),  -- SellerID 7  Raj Sharma
+(33, 4.3),  -- SellerID 8  Marcus Hill
+(35, 4.7),  -- SellerID 9  Andre Williams
+(38, 3.9),  -- SellerID 10 Imani Jackson
+(41, 4.8),  -- SellerID 11 Brett Nguyen
+(44, 4.5),  -- SellerID 12 Grace Liu
+(47, 4.1),  -- SellerID 13 Jaxon Price
+(50, 4.4);  -- SellerID 14 Maya Okafor
 
--- Vehicles
-INSERT INTO Vehicle
-(VIN, make, model, year, trim, wheel_drive, body_style, num_seats)
-VALUES
-('1HGCM82633A123456', 'Honda', 'Civic', 2020, 'EX', 'FWD', 'Sedan', 5),
-('2T1BURHE5JC123457', 'Toyota', 'Corolla', 2021, 'LE', 'FWD', 'Sedan', 5),
-('5YJ3E1EA7KF123458', 'Tesla', 'Model 3', 2022, 'Standard Range', 'RWD', 'Sedan', 5),
-('1FTFW1E50LFA12345', 'Ford', 'F-150', 2020, 'XLT', '4WD', 'Truck', 5),
-('2HKRW2H89MH123459', 'Honda', 'CR-V', 2021, 'Touring', 'AWD', 'SUV', 5),
-('JTDBR32E720123461', 'Toyota', 'Camry', 2020, 'SE', 'FWD', 'Sedan', 5),
-('KMHD84LF5LU123462', 'Hyundai', 'Elantra', 2021, 'SEL', 'FWD', 'Sedan', 5),
-('JN8AT2MV9LW123463', 'Nissan', 'Rogue', 2020, 'SV', 'AWD', 'SUV', 5),
-('WBA5R1C08LF123464', 'BMW', '330i', 2020, 'Base', 'RWD', 'Sedan', 5),
-('1C4RJFBG8MC123465', 'Jeep', 'Grand Cherokee', 2021, 'Limited', '4WD', 'SUV', 5);
 
--- Condition information
-INSERT INTO ConditionInfo
-(VIN, mileage, owner_count, key_count, vehicle_condition, accident_history)
-VALUES
-('1HGCM82633A123456', 45000, 1, 2, 'Good', 'No accidents reported'),
-('2T1BURHE5JC123457', 38000, 1, 2, 'Excellent', 'No accidents reported'),
-('5YJ3E1EA7KF123458', 25000, 1, 2, 'Excellent', 'Minor scratch on rear bumper'),
-('1FTFW1E50LFA12345', 62000, 2, 1, 'Good', 'One minor accident reported'),
-('2HKRW2H89MH123459', 41000, 1, 2, 'Very Good', 'No accidents reported'),
-('JTDBR32E720123461', 52000, 2, 2, 'Good', 'No accidents reported'),
-('KMHD84LF5LU123462', 31000, 1, 2, 'Excellent', 'No accidents reported'),
-('JN8AT2MV9LW123463', 47000, 1, 1, 'Very Good', 'Minor rear-end accident reported'),
-('WBA5R1C08LF123464', 36000, 2, 2, 'Good', 'No accidents reported'),
-('1C4RJFBG8MC123465', 29000, 1, 2, 'Excellent', 'No accidents reported');
+-- ─────────────────────────────────────────────────────────────────
+-- CUSTOMERS  (47 total — CustomerIDs 1–47)
+-- ─────────────────────────────────────────────────────────────────
+INSERT INTO Customer (UserID, preferred_contact_method) VALUES
+-- Original customers (CustomerIDs 1–7)
+(1,  'Email'),   -- CustomerID 1
+(2,  'Phone'),   -- CustomerID 2
+(4,  'Email'),   -- CustomerID 3
+(7,  'Email'),   -- CustomerID 4
+(8,  'Phone'),   -- CustomerID 5
+(9,  'Email'),   -- CustomerID 6
+(10, 'Text'),    -- CustomerID 7
+-- Trend customers (CustomerIDs 8–27)
+(11, 'Email'),   -- CustomerID 8
+(12, 'Phone'),   -- CustomerID 9
+(13, 'Text'),    -- CustomerID 10
+(14, 'Email'),   -- CustomerID 11
+(15, 'Phone'),   -- CustomerID 12
+(16, 'Text'),    -- CustomerID 13
+(17, 'Email'),   -- CustomerID 14
+(18, 'Phone'),   -- CustomerID 15
+(19, 'Email'),   -- CustomerID 16
+(20, 'Text'),    -- CustomerID 17
+(21, 'Email'),   -- CustomerID 18
+(22, 'Phone'),   -- CustomerID 19
+(23, 'Email'),   -- CustomerID 20
+(24, 'Text'),    -- CustomerID 21
+(25, 'Phone'),   -- CustomerID 22
+(26, 'Email'),   -- CustomerID 23
+(27, 'Text'),    -- CustomerID 24
+(28, 'Phone'),   -- CustomerID 25
+(29, 'Email'),   -- CustomerID 26
+(30, 'Text'),    -- CustomerID 27
+-- Expansion customers (CustomerIDs 28–47)
+(31, 'Email'),   -- CustomerID 28
+(32, 'Phone'),   -- CustomerID 29
+(33, 'Text'),    -- CustomerID 30
+(34, 'Email'),   -- CustomerID 31
+(35, 'Phone'),   -- CustomerID 32
+(36, 'Email'),   -- CustomerID 33
+(37, 'Text'),    -- CustomerID 34
+(38, 'Email'),   -- CustomerID 35
+(39, 'Phone'),   -- CustomerID 36
+(40, 'Email'),   -- CustomerID 37
+(41, 'Email'),   -- CustomerID 38
+(42, 'Phone'),   -- CustomerID 39
+(43, 'Text'),    -- CustomerID 40
+(44, 'Email'),   -- CustomerID 41
+(45, 'Phone'),   -- CustomerID 42
+(46, 'Text'),    -- CustomerID 43
+(47, 'Email'),   -- CustomerID 44
+(48, 'Phone'),   -- CustomerID 45
+(49, 'Email'),   -- CustomerID 46
+(50, 'Text');    -- CustomerID 47
 
--- Listings
-INSERT INTO Listing
-(VIN, SellerID, list_price, listed_date, listing_status)
-VALUES
+
+-- ─────────────────────────────────────────────────────────────────
+-- VEHICLES  (99 total — one per listing)
+-- ─────────────────────────────────────────────────────────────────
+INSERT INTO Vehicle (VIN, make, model, year, trim, wheel_drive, body_style, num_seats) VALUES
+-- Original 10
+('1HGCM82633A123456', 'Honda',       'Civic',          2020, 'EX',           'FWD', 'Sedan', 5),
+('2T1BURHE5JC123457', 'Toyota',      'Corolla',        2021, 'LE',           'FWD', 'Sedan', 5),
+('5YJ3E1EA7KF123458', 'Tesla',       'Model 3',        2022, 'Standard Range','RWD','Sedan', 5),
+('1FTFW1E50LFA12345', 'Ford',        'F-150',          2020, 'XLT',          '4WD', 'Truck', 5),
+('2HKRW2H89MH123459', 'Honda',       'CR-V',           2021, 'Touring',      'AWD', 'SUV',   5),
+('JTDBR32E720123461', 'Toyota',      'Camry',          2020, 'SE',           'FWD', 'Sedan', 5),
+('KMHD84LF5LU123462', 'Hyundai',     'Elantra',        2021, 'SEL',          'FWD', 'Sedan', 5),
+('JN8AT2MV9LW123463', 'Nissan',      'Rogue',          2020, 'SV',           'AWD', 'SUV',   5),
+('WBA5R1C08LF123464', 'BMW',         '330i',           2020, 'Base',         'RWD', 'Sedan', 5),
+('1C4RJFBG8MC123465', 'Jeep',        'Grand Cherokee', 2021, 'Limited',      '4WD', 'SUV',   5),
+-- Trend batch (20 vehicles)
+('3VWFE21C04M100001', 'Volkswagen',  'Jetta',          2022, 'SE',           'FWD', 'Sedan', 5),
+('1G1ZD5ST5JF100002', 'Chevrolet',   'Malibu',         2021, 'LT',           'FWD', 'Sedan', 5),
+('1N4BL4BV0LC100004', 'Nissan',      'Altima',         2021, 'SR',           'FWD', 'Sedan', 5),
+('5NPE34AF8FH100005', 'Hyundai',     'Sonata',         2022, 'SEL',          'FWD', 'Sedan', 5),
+('2C3CDXBG9MH100007', 'Dodge',       'Charger',        2021, 'R/T',          'RWD', 'Sedan', 5),
+('SALRR2RV5JA100003', 'Land Rover',  'Discovery',      2021, 'SE',           'AWD', 'SUV',   7),
+('WP0AA2A98LS100010', 'Porsche',     'Cayenne',        2020, 'Base',         'AWD', 'SUV',   5),
+('2HKRW2H89MH200018', 'Honda',       'CR-V',           2023, 'EX-L',         'AWD', 'SUV',   5),
+('JTDBR32E720200019', 'Toyota',      'RAV4',           2023, 'XLE',          'AWD', 'SUV',   5),
+('3TMCZ5AN9MM100006', 'Toyota',      'Tacoma',         2022, 'TRD Off-Road', '4WD', 'Truck', 5),
+('1FTFW1E50LFA20017', 'Ford',        'F-150',          2022, 'Lariat',       '4WD', 'Truck', 5),
+('5YJYGDEF9LF100008', 'Tesla',       'Model Y',        2022, 'Long Range',   'AWD', 'SUV',   5),
+('5YJ3E1EA7KF200011', 'Tesla',       'Model 3',        2023, 'Performance',  'AWD', 'Sedan', 5),
+('1N4AZ1CP5LC200012', 'Nissan',      'Leaf',           2022, 'SV Plus',      'FWD', 'Hatch', 5),
+('WBY1Z4C51FV200013', 'BMW',         'i3',             2021, 'Base',         'RWD', 'Hatch', 4),
+('3FADP0L36JR200014', 'Ford',        'Fusion Energi',  2021, 'Titanium',     'FWD', 'Sedan', 5),
+('WBA5R1C08LF200016', 'BMW',         '530i',           2022, 'xDrive',       'AWD', 'Sedan', 5),
+('5YJSA1H21FFP20020', 'Tesla',       'Model S',        2022, 'Long Range',   'AWD', 'Sedan', 5),
+('19XFC1F34HE200015', 'Honda',       'Civic',          2023, 'Sport',        'FWD', 'Sedan', 5),
+('KNDJN2A23K7100009', 'Kia',         'Soul',           2024, 'EX',           'FWD', 'Hatch', 5),
+-- Expansion batch (69 vehicles)
+('4T1BF3EK5AU123001', 'Toyota',      'Camry',          2019, 'LE',           'FWD', 'Sedan', 5),
+('1G1BC5SM0J7123002', 'Chevrolet',   'Spark',          2018, 'LS',           'FWD', 'Hatch', 4),
+('WBSVL9C51BC123003', 'BMW',         'X3',             2020, 'xDrive',       'AWD', 'SUV',   5),
+('3FADP4BJ5BM123004', 'Ford',        'Fiesta',         2019, 'SE',           'FWD', 'Hatch', 5),
+('5FNYF5H59HB123005', 'Honda',       'Pilot',          2020, 'EX-L',         'AWD', 'SUV',   8),
+('1HGCV1F32LA123006', 'Honda',       'Accord',         2020, 'Sport',        'FWD', 'Sedan', 5),
+('5YJ3E1EB4KF123007', 'Tesla',       'Model 3',        2022, 'LR',           'AWD', 'Sedan', 5),
+('1N4AL3AP5JC123008', 'Nissan',      'Altima',         2021, 'SR',           'FWD', 'Sedan', 5),
+('KM8J33A25NU123009', 'Hyundai',     'Tucson',         2022, 'SEL',          'AWD', 'SUV',   5),
+('5TDDZRFH0HS123010', 'Toyota',      'Highlander',     2021, 'XLE',          'AWD', 'SUV',   8),
+('19XFC1F34JE123011', 'Honda',       'Civic',          2021, 'EX',           'FWD', 'Sedan', 5),
+('1FTFW1ET5DFC23012', 'Ford',        'F-150',          2021, 'XLT',          '4WD', 'Truck', 5),
+('5YJ3E1EA5NF123013', 'Tesla',       'Model Y',        2023, 'SR',           'RWD', 'SUV',   5),
+('WBA5R7C58LFU23014', 'BMW',         '330i',           2021, 'Base',         'AWD', 'Sedan', 5),
+('3TMCZ5AN4PM123015', 'Toyota',      'Tacoma',         2023, 'TRD',          '4WD', 'Truck', 5),
+('1N4AZ1CP4LC123016', 'Nissan',      'Leaf',           2022, 'SV+',          'FWD', 'Hatch', 5),
+('WVW4PTBU0NW123017', 'Volkswagen',  'ID.4',           2022, 'Pro',          'AWD', 'SUV',   5),
+('5YJ3E1EBXNF123018', 'Tesla',       'Model 3',        2023, 'Perf',         'AWD', 'Sedan', 5),
+('KMHD84LF8LU123019', 'Hyundai',     'Elantra',        2022, 'N Line',       'FWD', 'Sedan', 5),
+('KM8K22AA7NU123020', 'Kia',         'Sportage',       2023, 'EX',           'AWD', 'SUV',   5),
+('1G1FY6S03N4123021', 'Chevrolet',   'Bolt EV',        2022, 'LT',           'FWD', 'Hatch', 5),
+('5YJSA1H22MF123022', 'Tesla',       'Model S',        2021, 'LR',           'AWD', 'Sedan', 5),
+('1C4RJFBG9MC123023', 'Jeep',        'Grand Cherokee', 2022, 'Limited',      '4WD', 'SUV',   5),
+('WP0AA2A75LS123024', 'Porsche',     'Cayenne',        2021, 'Base',         'AWD', 'SUV',   5),
+('JTDEPRAE5LJ123025', 'Toyota',      'Corolla',        2022, 'LE',           'FWD', 'Sedan', 5),
+('1HGCV3F91LA123026', 'Honda',       'Accord',         2022, 'Sport',        'FWD', 'Sedan', 5),
+('5YJ3E1EA9NF123027', 'Tesla',       'Model 3',        2023, 'SR',           'RWD', 'Sedan', 5),
+('1FTFW1ET3NFA23028', 'Ford',        'F-150',          2023, 'Lariat',       '4WD', 'Truck', 5),
+('KM8K62AB4NU123029', 'Kia',         'Telluride',      2023, 'EX',           'AWD', 'SUV',   8),
+('WBA5R1C59LA123030', 'BMW',         '530i',           2023, 'xDrive',       'AWD', 'Sedan', 5),
+('5YJSA1E40NF123031', 'Tesla',       'Model S',        2023, 'Plaid',        'AWD', 'Sedan', 5),
+('1G1ZD5ST7JF123032', 'Chevrolet',   'Malibu',         2021, 'Premier',      'FWD', 'Sedan', 5),
+('JTDEPRAE6LJ123033', 'Toyota',      'RAV4',           2022, 'XLE',          'AWD', 'SUV',   5),
+('5YJYGDEF7LF123034', 'Tesla',       'Model Y',        2023, 'LR',           'AWD', 'SUV',   5),
+('KM8J33A28NU123035', 'Hyundai',     'Tucson',         2023, 'N Line',       'AWD', 'SUV',   5),
+('5TDDZRFHXHS123036', 'Toyota',      'Highlander',     2022, 'Platinum',     'AWD', 'SUV',   8),
+('WVW4PTBU9NW123037', 'Volkswagen',  'ID.4',           2023, 'Pro+',         'AWD', 'SUV',   5),
+('1FTFW1ET8NFA23038', 'Ford',        'Maverick',       2023, 'XLT',          'AWD', 'Truck', 5),
+('5YJ3E1EBXPF123039', 'Tesla',       'Model 3',        2024, 'Perf',         'AWD', 'Sedan', 5),
+('KM8K62AC4PU123040', 'Kia',         'EV6',            2023, 'Wind',         'AWD', 'Hatch', 5),
+('KMHD04LB8PU123041', 'Hyundai',     'Ioniq 6',        2023, 'SE',           'RWD', 'Sedan', 5),
+('5TDBZRFH0JS123042', 'Toyota',      '4Runner',        2021, 'TRD',          '4WD', 'SUV',   5),
+('WBA5R7C56MFU23043', 'BMW',         'M3',             2022, 'Base',         'RWD', 'Sedan', 5),
+('1N4BL4BV9LC123044', 'Nissan',      'Altima',         2023, 'Platinum',     'FWD', 'Sedan', 5),
+('5YJYGDEE5LF123045', 'Tesla',       'Model Y',        2024, 'RWD',          'RWD', 'SUV',   5),
+('3TMCZ5AN8PM123046', 'Toyota',      'Tacoma',         2024, 'TRD+',         '4WD', 'Truck', 5),
+('KNDJN2A26L7123047', 'Kia',         'Soul',           2022, 'GT-Line',      'FWD', 'Hatch', 5),
+('1HGCV1F38NA123048', 'Honda',       'Accord',         2023, 'EX-L',         'FWD', 'Sedan', 5),
+('5YJ3E1EB5PF123049', 'Tesla',       'Model 3',        2024, 'LR',           'AWD', 'Sedan', 5),
+('WP0AA2A72NS123050', 'Porsche',     'Cayenne',        2023, 'Base',         'AWD', 'SUV',   5),
+('1FTFW1ET2PFA23051', 'Ford',        'F-150',          2024, 'King Ranch',   '4WD', 'Truck', 5),
+('KM8K62AB8PU123052', 'Kia',         'Telluride',      2024, 'SX',           'AWD', 'SUV',   8),
+('5YJSA1E47PF123053', 'Tesla',       'Model S',        2024, 'LR',           'AWD', 'Sedan', 5),
+('WBSVL9C58DC123054', 'BMW',         'X5',             2022, 'xDrive',       'AWD', 'SUV',   5),
+('3TMCZ5AN2NM123055', 'Toyota',      'Tundra',         2023, 'TRD Pro',      '4WD', 'Truck', 5),
+('KMHD04LB2PU123056', 'Hyundai',     'Ioniq 6',        2024, 'SE+',          'AWD', 'Sedan', 5),
+('WVW4PTBU2PW123057', 'Volkswagen',  'ID.4',           2024, 'Pro',          'AWD', 'SUV',   5),
+('5YJ3E1EB8PF123058', 'Tesla',       'Model Y',        2024, 'LR',           'AWD', 'SUV',   5),
+('1G1FY6S04P4123059', 'Chevrolet',   'Bolt EV',        2024, 'LT',           'FWD', 'Hatch', 5),
+('JTDEPRAE9PJ123060', 'Toyota',      'Corolla',        2024, 'LE',           'FWD', 'Sedan', 5),
+('5TDDZRFH5JS123061', 'Toyota',      'Highlander',     2024, 'Platinum',     'AWD', 'SUV',   8),
+('5YJ3E1EBXRF123062', 'Tesla',       'Model 3',        2024, 'SR',           'RWD', 'Sedan', 5),
+('KM8K62AC8RU123063', 'Kia',         'EV6',            2024, 'GT',           'AWD', 'Hatch', 5),
+('WBA5R1C54RA123064', 'BMW',         '330i',           2024, 'Base',         'AWD', 'Sedan', 5),
+('1FTFW1ET5RFA23065', 'Ford',        'F-150',          2024, 'Tremor',       '4WD', 'Truck', 5),
+('5YJSA1E49RF123066', 'Tesla',       'Model S',        2024, 'Plaid',        'AWD', 'Sedan', 5),
+('WBSVL9C51EC123067', 'BMW',         'X7',             2023, 'xDrive',       'AWD', 'SUV',   7),
+('KM8K62AB2RU123068', 'Kia',         'Telluride',      2024, 'X-Line',       'AWD', 'SUV',   8),
+('3TMCZ5AN6RM123069', 'Toyota',      'Tundra',         2024, 'Capstone',     '4WD', 'Truck', 5);
+
+
+-- ─────────────────────────────────────────────────────────────────
+-- CONDITION INFO  (99 rows — one per vehicle)
+-- ─────────────────────────────────────────────────────────────────
+INSERT INTO ConditionInfo (VIN, mileage, owner_count, key_count, vehicle_condition, accident_history) VALUES
+('1HGCM82633A123456', 45000, 1, 2, 'Good',      'No accidents reported'),
+('2T1BURHE5JC123457', 38000, 1, 2, 'Excellent',  'No accidents reported'),
+('5YJ3E1EA7KF123458', 25000, 1, 2, 'Excellent',  'Minor scratch on rear bumper'),
+('1FTFW1E50LFA12345', 62000, 2, 1, 'Good',       'One minor accident reported'),
+('2HKRW2H89MH123459', 41000, 1, 2, 'Very Good',  'No accidents reported'),
+('JTDBR32E720123461', 52000, 2, 2, 'Good',       'No accidents reported'),
+('KMHD84LF5LU123462', 31000, 1, 2, 'Excellent',  'No accidents reported'),
+('JN8AT2MV9LW123463', 47000, 1, 1, 'Very Good',  'Minor rear-end accident reported'),
+('WBA5R1C08LF123464', 36000, 2, 2, 'Good',       'No accidents reported'),
+('1C4RJFBG8MC123465', 29000, 1, 2, 'Excellent',  'No accidents reported'),
+('3VWFE21C04M100001', 28000, 1, 2, 'Very Good',  'No accidents reported'),
+('1G1ZD5ST5JF100002', 55000, 2, 2, 'Good',       'One minor accident reported'),
+('1N4BL4BV0LC100004', 48000, 1, 2, 'Good',       'Minor scratch on door panel'),
+('5NPE34AF8FH100005', 18000, 1, 2, 'Excellent',  'No accidents reported'),
+('2C3CDXBG9MH100007', 43000, 2, 2, 'Good',       'One rear-end accident reported'),
+('SALRR2RV5JA100003', 34000, 1, 2, 'Very Good',  'No accidents reported'),
+('WP0AA2A98LS100010', 41000, 2, 1, 'Good',       'No accidents reported'),
+('2HKRW2H89MH200018', 12000, 1, 2, 'Excellent',  'No accidents reported'),
+('JTDBR32E720200019', 17000, 1, 2, 'Excellent',  'No accidents reported'),
+('3TMCZ5AN9MM100006', 37000, 1, 2, 'Very Good',  'No accidents reported'),
+('1FTFW1E50LFA20017', 51000, 2, 2, 'Good',       'One minor accident reported'),
+('5YJYGDEF9LF100008', 22000, 1, 2, 'Excellent',  'No accidents reported'),
+('5YJ3E1EA7KF200011', 15000, 1, 2, 'Excellent',  'No accidents reported'),
+('1N4AZ1CP5LC200012', 32000, 1, 2, 'Very Good',  'No accidents reported'),
+('WBY1Z4C51FV200013', 44000, 2, 2, 'Good',       'No accidents reported'),
+('3FADP0L36JR200014', 39000, 1, 2, 'Good',       'Minor fender bender reported'),
+('WBA5R1C08LF200016', 27000, 1, 2, 'Excellent',  'No accidents reported'),
+('5YJSA1H21FFP20020', 31000, 1, 2, 'Very Good',  'No accidents reported'),
+('19XFC1F34HE200015',  9000, 1, 2, 'Excellent',  'No accidents reported'),
+('KNDJN2A23K7100009',  4500, 1, 2, 'Excellent',  'No accidents reported'),
+('4T1BF3EK5AU123001', 68000, 2, 2, 'Good',       'No accidents reported'),
+('1G1BC5SM0J7123002', 54000, 2, 1, 'Good',       'No accidents reported'),
+('WBSVL9C51BC123003', 39000, 1, 2, 'Very Good',  'No accidents reported'),
+('3FADP4BJ5BM123004', 61000, 2, 1, 'Fair',       'One minor accident reported'),
+('5FNYF5H59HB123005', 47000, 1, 2, 'Very Good',  'No accidents reported'),
+('1HGCV1F32LA123006', 43000, 1, 2, 'Very Good',  'No accidents reported'),
+('5YJ3E1EB4KF123007', 21000, 1, 2, 'Excellent',  'No accidents reported'),
+('1N4AL3AP5JC123008', 36000, 1, 2, 'Good',       'No accidents reported'),
+('KM8J33A25NU123009', 18000, 1, 2, 'Excellent',  'No accidents reported'),
+('5TDDZRFH0HS123010', 44000, 1, 2, 'Very Good',  'No accidents reported'),
+('19XFC1F34JE123011', 29000, 1, 2, 'Very Good',  'No accidents reported'),
+('1FTFW1ET5DFC23012', 55000, 2, 2, 'Good',       'One minor accident reported'),
+('5YJ3E1EA5NF123013', 14000, 1, 2, 'Excellent',  'No accidents reported'),
+('WBA5R7C58LFU23014', 33000, 1, 2, 'Very Good',  'No accidents reported'),
+('3TMCZ5AN4PM123015', 12000, 1, 2, 'Excellent',  'No accidents reported'),
+('1N4AZ1CP4LC123016', 28000, 1, 2, 'Very Good',  'No accidents reported'),
+('WVW4PTBU0NW123017', 22000, 1, 2, 'Excellent',  'No accidents reported'),
+('5YJ3E1EBXNF123018',  8000, 1, 2, 'Excellent',  'No accidents reported'),
+('KMHD84LF8LU123019', 19000, 1, 2, 'Very Good',  'No accidents reported'),
+('KM8K22AA7NU123020', 11000, 1, 2, 'Excellent',  'No accidents reported'),
+('1G1FY6S03N4123021', 31000, 1, 2, 'Very Good',  'No accidents reported'),
+('5YJSA1H22MF123022', 29000, 1, 2, 'Very Good',  'No accidents reported'),
+('1C4RJFBG9MC123023', 34000, 1, 2, 'Very Good',  'No accidents reported'),
+('WP0AA2A75LS123024', 38000, 1, 1, 'Very Good',  'No accidents reported'),
+('JTDEPRAE5LJ123025', 24000, 1, 2, 'Very Good',  'No accidents reported'),
+('1HGCV3F91LA123026', 28000, 1, 2, 'Very Good',  'No accidents reported'),
+('5YJ3E1EA9NF123027', 10000, 1, 2, 'Excellent',  'No accidents reported'),
+('1FTFW1ET3NFA23028', 15000, 1, 2, 'Excellent',  'No accidents reported'),
+('KM8K62AB4NU123029', 16000, 1, 2, 'Excellent',  'No accidents reported'),
+('WBA5R1C59LA123030', 22000, 1, 2, 'Excellent',  'No accidents reported'),
+('5YJSA1E40NF123031',  5000, 1, 2, 'Excellent',  'No accidents reported'),
+('1G1ZD5ST7JF123032', 41000, 2, 2, 'Good',       'One minor accident reported'),
+('JTDEPRAE6LJ123033', 31000, 1, 2, 'Very Good',  'No accidents reported'),
+('5YJYGDEF7LF123034', 18000, 1, 2, 'Excellent',  'No accidents reported'),
+('KM8J33A28NU123035',  9000, 1, 2, 'Excellent',  'No accidents reported'),
+('5TDDZRFHXHS123036', 39000, 1, 2, 'Very Good',  'No accidents reported'),
+('WVW4PTBU9NW123037', 15000, 1, 2, 'Excellent',  'No accidents reported'),
+('1FTFW1ET8NFA23038', 18000, 1, 2, 'Excellent',  'No accidents reported'),
+('5YJ3E1EBXPF123039',  4000, 1, 2, 'Excellent',  'No accidents reported'),
+('KM8K62AC4PU123040', 12000, 1, 2, 'Excellent',  'No accidents reported'),
+('KMHD04LB8PU123041',  8000, 1, 2, 'Excellent',  'No accidents reported'),
+('5TDBZRFH0JS123042', 52000, 2, 2, 'Good',       'One minor accident reported'),
+('WBA5R7C56MFU23043', 28000, 1, 2, 'Very Good',  'No accidents reported'),
+('1N4BL4BV9LC123044', 14000, 1, 2, 'Excellent',  'No accidents reported'),
+('5YJYGDEE5LF123045',  5000, 1, 2, 'Excellent',  'No accidents reported'),
+('3TMCZ5AN8PM123046',  8000, 1, 2, 'Excellent',  'No accidents reported'),
+('KNDJN2A26L7123047', 33000, 2, 2, 'Good',       'No accidents reported'),
+('1HGCV1F38NA123048', 19000, 1, 2, 'Excellent',  'No accidents reported'),
+('5YJ3E1EB5PF123049',  3000, 1, 2, 'Excellent',  'No accidents reported'),
+('WP0AA2A72NS123050', 19000, 1, 2, 'Excellent',  'No accidents reported'),
+('1FTFW1ET2PFA23051',  6000, 1, 2, 'Excellent',  'No accidents reported'),
+('KM8K62AB8PU123052', 10000, 1, 2, 'Excellent',  'No accidents reported'),
+('5YJSA1E47PF123053',  4000, 1, 2, 'Excellent',  'No accidents reported'),
+('WBSVL9C58DC123054', 36000, 1, 2, 'Very Good',  'No accidents reported'),
+('3TMCZ5AN2NM123055', 22000, 1, 2, 'Excellent',  'No accidents reported'),
+('KMHD04LB2PU123056',  6000, 1, 2, 'Excellent',  'No accidents reported'),
+('WVW4PTBU2PW123057',  9000, 1, 2, 'Excellent',  'No accidents reported'),
+('5YJ3E1EB8PF123058',  6000, 1, 2, 'Excellent',  'No accidents reported'),
+('1G1FY6S04P4123059',  5000, 1, 2, 'Excellent',  'No accidents reported'),
+('JTDEPRAE9PJ123060',  8000, 1, 2, 'Excellent',  'No accidents reported'),
+('5TDDZRFH5JS123061', 11000, 1, 2, 'Excellent',  'No accidents reported'),
+('5YJ3E1EBXRF123062',  4000, 1, 2, 'Excellent',  'No accidents reported'),
+('KM8K62AC8RU123063',  8000, 1, 2, 'Excellent',  'No accidents reported'),
+('WBA5R1C54RA123064',  9000, 1, 2, 'Excellent',  'No accidents reported'),
+('1FTFW1ET5RFA23065',  7000, 1, 2, 'Excellent',  'No accidents reported'),
+('5YJSA1E49RF123066',  3000, 1, 2, 'Excellent',  'No accidents reported'),
+('WBSVL9C51EC123067', 21000, 1, 2, 'Excellent',  'No accidents reported'),
+('KM8K62AB2RU123068',  6000, 1, 2, 'Excellent',  'No accidents reported'),
+('3TMCZ5AN6RM123069',  8000, 1, 2, 'Excellent',  'No accidents reported');
+
+
+-- ─────────────────────────────────────────────────────────────────
+-- LISTINGS  (99 total — ListingIDs 1–99)
+-- ─────────────────────────────────────────────────────────────────
+INSERT INTO Listing (VIN, SellerID, list_price, listed_date, listing_status) VALUES
+-- Original 10 (ListingIDs 1–10)
 ('1HGCM82633A123456', 1, 18500.00, '2026-01-10', 'Sold'),
 ('2T1BURHE5JC123457', 1, 19500.00, '2026-01-15', 'Sold'),
 ('5YJ3E1EA7KF123458', 2, 28500.00, '2026-02-01', 'Sold'),
@@ -78,67 +371,549 @@ VALUES
 ('KMHD84LF5LU123462', 2, 17900.00, '2026-03-20', 'Sold'),
 ('JN8AT2MV9LW123463', 3, 22900.00, '2026-04-02', 'Active'),
 ('WBA5R1C08LF123464', 1, 33900.00, '2026-04-15', 'Sold'),
-('1C4RJFBG8MC123465', 2, 31500.00, '2026-05-01', 'Active');
+('1C4RJFBG8MC123465', 2, 31500.00, '2026-05-01', 'Active'),
+-- Trend batch (ListingIDs 11–30)
+('3VWFE21C04M100001', 4, 21000.00, '2025-01-12', 'Sold'),
+('1G1ZD5ST5JF100002', 4, 16500.00, '2025-01-28', 'Sold'),
+('SALRR2RV5JA100003', 5, 43000.00, '2025-02-05', 'Sold'),
+('1N4BL4BV0LC100004', 5, 19200.00, '2025-02-20', 'Sold'),
+('5NPE34AF8FH100005', 4, 24800.00, '2025-03-08', 'Sold'),
+('3TMCZ5AN9MM100006', 5, 37500.00, '2025-04-03', 'Sold'),
+('2C3CDXBG9MH100007', 6, 28900.00, '2025-04-17', 'Sold'),
+('5YJYGDEF9LF100008', 6, 46500.00, '2025-05-01', 'Sold'),
+('WP0AA2A98LS100010', 5, 69000.00, '2025-06-02', 'Sold'),
+('5YJ3E1EA7KF200011', 5, 52000.00, '2025-07-07', 'Sold'),
+('1N4AZ1CP5LC200012', 4, 18500.00, '2025-07-21', 'Sold'),
+('WBY1Z4C51FV200013', 6, 22000.00, '2025-08-04', 'Sold'),
+('3FADP0L36JR200014', 4, 21500.00, '2025-08-18', 'Sold'),
+('19XFC1F34HE200015', 5, 27900.00, '2025-09-01', 'Sold'),
+('WBA5R1C08LF200016', 4, 41000.00, '2025-10-06', 'Sold'),
+('1FTFW1E50LFA20017', 5, 38500.00, '2025-10-20', 'Sold'),
+('2HKRW2H89MH200018', 6, 33000.00, '2025-11-03', 'Sold'),
+('JTDBR32E720200019', 4, 35500.00, '2025-11-17', 'Sold'),
+('5YJSA1H21FFP20020', 5, 71000.00, '2025-12-01', 'Sold'),
+('KNDJN2A23K7100009', 6, 29500.00, '2026-03-10', 'Active'),
+-- Expansion batch (ListingIDs 31–99)
+('4T1BF3EK5AU123001',  7, 16800.00, '2024-02-03', 'Sold'),
+('1G1BC5SM0J7123002',  7, 11500.00, '2024-02-10', 'Sold'),
+('WBSVL9C51BC123003',  8, 41500.00, '2024-03-01', 'Sold'),
+('3FADP4BJ5BM123004',  8, 12900.00, '2024-03-05', 'Sold'),
+('5FNYF5H59HB123005',  9, 31500.00, '2024-03-10', 'Sold'),
+('1HGCV1F32LA123006',  9, 24500.00, '2024-03-15', 'Sold'),
+('5YJ3E1EB4KF123007', 10, 49500.00, '2024-03-20', 'Sold'),
+('1N4AL3AP5JC123008', 10, 19800.00, '2024-04-01', 'Sold'),
+('KM8J33A25NU123009', 11, 28900.00, '2024-04-05', 'Sold'),
+('5TDDZRFH0HS123010', 11, 37500.00, '2024-04-10', 'Sold'),
+('19XFC1F34JE123011', 12, 21500.00, '2024-04-15', 'Sold'),
+('1FTFW1ET5DFC23012', 12, 36500.00, '2024-04-20', 'Sold'),
+('5YJ3E1EA5NF123013', 13, 44900.00, '2024-05-01', 'Sold'),
+('WBA5R7C58LFU23014', 13, 38500.00, '2024-05-05', 'Sold'),
+('3TMCZ5AN4PM123015', 14, 42000.00, '2024-05-10', 'Sold'),
+('1N4AZ1CP4LC123016',  7, 21000.00, '2024-07-01', 'Sold'),
+('WVW4PTBU0NW123017',  8, 36500.00, '2024-07-05', 'Sold'),
+('5YJ3E1EBXNF123018',  8, 54500.00, '2024-07-10', 'Sold'),
+('KMHD84LF8LU123019',  9, 24000.00, '2024-07-15', 'Sold'),
+('KM8K22AA7NU123020',  9, 32500.00, '2024-07-20', 'Sold'),
+('1G1FY6S03N4123021', 10, 25500.00, '2024-08-01', 'Sold'),
+('5YJSA1H22MF123022', 10, 68000.00, '2024-08-05', 'Sold'),
+('1C4RJFBG9MC123023', 11, 39500.00, '2024-08-10', 'Sold'),
+('WP0AA2A75LS123024', 11, 72000.00, '2024-10-01', 'Sold'),
+('JTDEPRAE5LJ123025', 12, 22500.00, '2024-10-05', 'Sold'),
+('1HGCV3F91LA123026', 12, 27500.00, '2024-10-10', 'Sold'),
+('5YJ3E1EA9NF123027', 13, 47500.00, '2024-10-15', 'Sold'),
+('1FTFW1ET3NFA23028', 13, 48500.00, '2024-10-20', 'Sold'),
+('KM8K62AB4NU123029', 14, 39500.00, '2024-11-01', 'Sold'),
+('WBA5R1C59LA123030', 14, 52000.00, '2024-11-05', 'Sold'),
+('5YJSA1E40NF123031',  7, 95000.00, '2024-11-10', 'Sold'),
+('1G1ZD5ST7JF123032',  8, 18500.00, '2025-01-08', 'Sold'),
+('JTDEPRAE6LJ123033',  9, 33500.00, '2025-01-12', 'Sold'),
+('5YJYGDEF7LF123034',  9, 51000.00, '2025-01-18', 'Sold'),
+('KM8J33A28NU123035', 10, 34500.00, '2025-01-22', 'Sold'),
+('5TDDZRFHXHS123036', 10, 42000.00, '2025-02-01', 'Sold'),
+('WVW4PTBU9NW123037', 11, 39000.00, '2025-02-05', 'Sold'),
+('1FTFW1ET8NFA23038', 11, 29500.00, '2025-02-10', 'Sold'),
+('5YJ3E1EBXPF123039', 12, 57000.00, '2025-04-01', 'Sold'),
+('KM8K62AC4PU123040', 12, 43500.00, '2025-04-05', 'Sold'),
+('KMHD04LB8PU123041', 13, 38500.00, '2025-04-10', 'Sold'),
+('5TDBZRFH0JS123042', 13, 36000.00, '2025-04-15', 'Sold'),
+('WBA5R7C56MFU23043', 14, 68000.00, '2025-05-01', 'Sold'),
+('1N4BL4BV9LC123044',  7, 26500.00, '2025-05-05', 'Sold'),
+('5YJYGDEE5LF123045',  8, 46000.00, '2025-06-01', 'Sold'),
+('3TMCZ5AN8PM123046',  8, 45000.00, '2025-07-01', 'Sold'),
+('KNDJN2A26L7123047',  9, 17500.00, '2025-07-05', 'Sold'),
+('1HGCV1F38NA123048',  9, 30500.00, '2025-08-01', 'Sold'),
+('5YJ3E1EB5PF123049', 10, 55000.00, '2025-09-01', 'Sold'),
+('WP0AA2A72NS123050', 10, 78000.00, '2025-09-05', 'Sold'),
+('1FTFW1ET2PFA23051', 11, 58000.00, '2025-10-01', 'Sold'),
+('KM8K62AB8PU123052', 11, 44000.00, '2025-10-05', 'Sold'),
+('5YJSA1E47PF123053', 12, 89000.00, '2025-10-10', 'Sold'),
+('WBSVL9C58DC123054', 12, 56000.00, '2025-11-01', 'Sold'),
+('3TMCZ5AN2NM123055', 13, 52000.00, '2025-11-05', 'Sold'),
+('KMHD04LB2PU123056', 13, 41000.00, '2025-11-10', 'Sold'),
+('WVW4PTBU2PW123057', 14, 38000.00, '2025-11-15', 'Sold'),
+('5YJ3E1EB8PF123058', 14, 53000.00, '2025-12-01', 'Sold'),
+('1G1FY6S04P4123059',  7, 28000.00, '2026-01-05', 'Sold'),
+('JTDEPRAE9PJ123060',  8, 23500.00, '2026-01-10', 'Sold'),
+('5TDDZRFH5JS123061',  9, 49000.00, '2026-01-15', 'Sold'),
+('5YJ3E1EBXRF123062', 10, 44000.00, '2026-02-01', 'Sold'),
+('KM8K62AC8RU123063', 11, 49500.00, '2026-02-05', 'Sold'),
+('WBA5R1C54RA123064', 12, 46000.00, '2026-02-10', 'Sold'),
+('1FTFW1ET5RFA23065', 13, 62000.00, '2026-03-01', 'Sold'),
+('5YJSA1E49RF123066', 14, 99000.00, '2026-04-01', 'Active'),
+('WBSVL9C51EC123067',  7, 82000.00, '2026-04-10', 'Active'),
+('KM8K62AB2RU123068',  8, 47000.00, '2026-05-01', 'Active'),
+('3TMCZ5AN6RM123069',  9, 65000.00, '2026-05-15', 'Active');
 
--- Inventory
-INSERT INTO Inventory
-(ListingID, quantity, status, location)
-VALUES
-(1, 0, 'Sold', 'Seattle Lot A'),
-(2, 0, 'Sold', 'Seattle Lot A'),
-(3, 0, 'Sold', 'Bellevue Lot B'),
-(4, 0, 'Sold', 'Bellevue Lot B'),
-(5, 1, 'Available', 'Everett Lot C'),
-(6, 0, 'Sold', 'Seattle Lot A'),
-(7, 0, 'Sold', 'Bellevue Lot B'),
-(8, 1, 'Available', 'Everett Lot C'),
-(9, 0, 'Sold', 'Seattle Lot A'),
-(10, 1, 'Available', 'Bellevue Lot B');
 
--- Transactions
-INSERT INTO Transactions
-(ListingID, CustomerID, transaction_date, total_amount, transaction_status)
-VALUES
-(4, 1, '2026-03-15 10:00:00', 32000.00, 'Completed'),
-(2, 2, '2026-04-01 14:30:00', 19500.00, 'Completed'),
-(6, 4, '2026-04-10 11:20:00', 21000.00, 'Completed'),
-(7, 5, '2026-04-18 15:10:00', 17600.00, 'Completed'),
-(9, 6, '2026-05-05 12:00:00', 33500.00, 'Completed'),
-(1, 3, '2026-05-12 09:45:00', 18300.00, 'Completed'),
-(3, 1, '2026-05-20 16:30:00', 28000.00, 'Completed');
+-- ─────────────────────────────────────────────────────────────────
+-- INVENTORY  (99 rows — ListingIDs 1–99)
+-- ─────────────────────────────────────────────────────────────────
+INSERT INTO Inventory (ListingID, quantity, status, location) VALUES
+(1,  0,'Sold',     'Seattle Lot A'),   (2,  0,'Sold',     'Seattle Lot A'),
+(3,  0,'Sold',     'Bellevue Lot B'),  (4,  0,'Sold',     'Bellevue Lot B'),
+(5,  1,'Available','Everett Lot C'),   (6,  0,'Sold',     'Seattle Lot A'),
+(7,  0,'Sold',     'Bellevue Lot B'),  (8,  1,'Available','Everett Lot C'),
+(9,  0,'Sold',     'Seattle Lot A'),   (10, 1,'Available','Bellevue Lot B'),
+(11, 0,'Sold',     'Seattle Lot A'),   (12, 0,'Sold',     'Seattle Lot A'),
+(13, 0,'Sold',     'Bellevue Lot B'),  (14, 0,'Sold',     'Bellevue Lot B'),
+(15, 0,'Sold',     'Kirkland Lot D'),  (16, 0,'Sold',     'Everett Lot C'),
+(17, 0,'Sold',     'Tacoma Lot E'),    (18, 0,'Sold',     'Bellevue Lot B'),
+(19, 0,'Sold',     'Kirkland Lot D'),  (20, 0,'Sold',     'Bellevue Lot B'),
+(21, 0,'Sold',     'Everett Lot C'),   (22, 0,'Sold',     'Seattle Lot A'),
+(23, 0,'Sold',     'Tacoma Lot E'),    (24, 0,'Sold',     'Kirkland Lot D'),
+(25, 0,'Sold',     'Seattle Lot A'),   (26, 0,'Sold',     'Seattle Lot A'),
+(27, 0,'Sold',     'Bellevue Lot B'),  (28, 0,'Sold',     'Everett Lot C'),
+(29, 0,'Sold',     'Kirkland Lot D'),  (30, 1,'Available','Tacoma Lot E'),
+(31, 0,'Sold',     'Seattle Lot A'),   (32, 0,'Sold',     'Bellevue Lot B'),
+(33, 0,'Sold',     'Kirkland Lot D'),  (34, 0,'Sold',     'Tacoma Lot E'),
+(35, 0,'Sold',     'Everett Lot C'),   (36, 0,'Sold',     'Seattle Lot A'),
+(37, 0,'Sold',     'Bellevue Lot B'),  (38, 0,'Sold',     'Kirkland Lot D'),
+(39, 0,'Sold',     'Tacoma Lot E'),    (40, 0,'Sold',     'Everett Lot C'),
+(41, 0,'Sold',     'Seattle Lot A'),   (42, 0,'Sold',     'Bellevue Lot B'),
+(43, 0,'Sold',     'Kirkland Lot D'),  (44, 0,'Sold',     'Tacoma Lot E'),
+(45, 0,'Sold',     'Everett Lot C'),   (46, 0,'Sold',     'Seattle Lot A'),
+(47, 0,'Sold',     'Bellevue Lot B'),  (48, 0,'Sold',     'Kirkland Lot D'),
+(49, 0,'Sold',     'Tacoma Lot E'),    (50, 0,'Sold',     'Everett Lot C'),
+(51, 0,'Sold',     'Seattle Lot A'),   (52, 0,'Sold',     'Bellevue Lot B'),
+(53, 0,'Sold',     'Kirkland Lot D'),  (54, 0,'Sold',     'Tacoma Lot E'),
+(55, 0,'Sold',     'Everett Lot C'),   (56, 0,'Sold',     'Seattle Lot A'),
+(57, 0,'Sold',     'Bellevue Lot B'),  (58, 0,'Sold',     'Kirkland Lot D'),
+(59, 0,'Sold',     'Tacoma Lot E'),    (60, 0,'Sold',     'Everett Lot C'),
+(61, 0,'Sold',     'Seattle Lot A'),   (62, 0,'Sold',     'Bellevue Lot B'),
+(63, 0,'Sold',     'Kirkland Lot D'),  (64, 0,'Sold',     'Tacoma Lot E'),
+(65, 0,'Sold',     'Everett Lot C'),   (66, 0,'Sold',     'Seattle Lot A'),
+(67, 0,'Sold',     'Bellevue Lot B'),  (68, 0,'Sold',     'Kirkland Lot D'),
+(69, 0,'Sold',     'Tacoma Lot E'),    (70, 0,'Sold',     'Everett Lot C'),
+(71, 0,'Sold',     'Seattle Lot A'),   (72, 0,'Sold',     'Bellevue Lot B'),
+(73, 0,'Sold',     'Kirkland Lot D'),  (74, 0,'Sold',     'Tacoma Lot E'),
+(75, 0,'Sold',     'Everett Lot C'),   (76, 0,'Sold',     'Seattle Lot A'),
+(77, 0,'Sold',     'Bellevue Lot B'),  (78, 0,'Sold',     'Kirkland Lot D'),
+(79, 0,'Sold',     'Tacoma Lot E'),    (80, 0,'Sold',     'Everett Lot C'),
+(81, 0,'Sold',     'Seattle Lot A'),   (82, 0,'Sold',     'Bellevue Lot B'),
+(83, 0,'Sold',     'Kirkland Lot D'),  (84, 0,'Sold',     'Tacoma Lot E'),
+(85, 0,'Sold',     'Everett Lot C'),   (86, 0,'Sold',     'Seattle Lot A'),
+(87, 0,'Sold',     'Bellevue Lot B'),  (88, 0,'Sold',     'Kirkland Lot D'),
+(89, 0,'Sold',     'Tacoma Lot E'),    (90, 0,'Sold',     'Everett Lot C'),
+(91, 0,'Sold',     'Seattle Lot A'),   (92, 0,'Sold',     'Bellevue Lot B'),
+(93, 0,'Sold',     'Kirkland Lot D'),  (94, 0,'Sold',     'Tacoma Lot E'),
+(95, 0,'Sold',     'Everett Lot C'),
+(96, 1,'Available','Seattle Lot A'),
+(97, 1,'Available','Bellevue Lot B'),
+(98, 1,'Available','Kirkland Lot D'),
+(99, 1,'Available','Everett Lot C');
 
--- Payments
-INSERT INTO Payment
-(TransactionID, payment_method, payment_status, payment_date, amount_paid)
-VALUES
-(1, 'Bank Transfer', 'Paid', '2026-03-15 10:15:00', 32000.00),
-(2, 'Credit Card', 'Paid', '2026-04-01 14:45:00', 19500.00),
-(3, 'Credit Card', 'Paid', '2026-04-10 11:30:00', 21000.00),
-(4, 'Bank Transfer', 'Paid', '2026-04-18 15:20:00', 17600.00),
-(5, 'Cashier Check', 'Paid', '2026-05-05 12:15:00', 33500.00),
-(6, 'Credit Card', 'Paid', '2026-05-12 10:00:00', 18300.00),
-(7, 'Bank Transfer', 'Paid', '2026-05-20 16:45:00', 28000.00);
 
--- Deliveries
-INSERT INTO Deliveries
-(TransactionID, delivery_address, delivery_status, delivery_date)
-VALUES
-(1, '123 Main St, Seattle, WA', 'Delivered', '2026-03-20'),
-(2, '456 Pine St, Bellevue, WA', 'Delivered', '2026-04-05'),
-(3, '222 Hill Ave, Tacoma, WA', 'Delivered', '2026-04-14'),
-(4, '333 Market St, Redmond, WA', 'Delivered', '2026-04-22'),
-(5, '444 River Rd, Renton, WA', 'Delivered', '2026-05-09'),
-(6, '321 Cedar Rd, Lynnwood, WA', 'Delivered', '2026-05-16'),
-(7, '123 Main St, Seattle, WA', 'Scheduled', '2026-05-25');
+-- ─────────────────────────────────────────────────────────────────
+-- TRANSACTIONS  (92 total — TransactionIDs 1–92)
+-- Active listings (5,8,10,30,96,97,98,99) have no transaction
+-- ─────────────────────────────────────────────────────────────────
+INSERT INTO Transactions (ListingID, CustomerID, transaction_date, total_amount, transaction_status) VALUES
+-- Original 7 (TransactionIDs 1–7)
+(4,  1,  '2026-03-15 10:00:00', 32000.00, 'Completed'),
+(2,  2,  '2026-04-01 14:30:00', 19500.00, 'Completed'),
+(6,  4,  '2026-04-10 11:20:00', 21000.00, 'Completed'),
+(7,  5,  '2026-04-18 15:10:00', 17600.00, 'Completed'),
+(9,  6,  '2026-05-05 12:00:00', 33500.00, 'Completed'),
+(1,  3,  '2026-05-12 09:45:00', 18300.00, 'Completed'),
+(3,  1,  '2026-05-20 16:30:00', 28000.00, 'Completed'),
+-- Trend batch (TransactionIDs 8–27)
+(11, 8,  '2025-01-20 10:00:00', 20500.00, 'Completed'),
+(12, 9,  '2025-02-05 13:30:00', 16200.00, 'Completed'),
+(13, 10, '2025-02-15 11:00:00', 42500.00, 'Completed'),
+(14, 11, '2025-03-01 09:45:00', 18900.00, 'Completed'),
+(15, 12, '2025-03-18 14:00:00', 24500.00, 'Completed'),
+(16, 13, '2025-04-10 10:30:00', 37000.00, 'Completed'),
+(17, 14, '2025-04-25 12:00:00', 28500.00, 'Completed'),
+(18, 15, '2025-05-08 09:15:00', 46000.00, 'Completed'),
+(19, 16, '2025-06-07 11:00:00', 68000.00, 'Completed'),
+(20, 17, '2025-07-14 10:00:00', 51500.00, 'Completed'),
+(21, 18, '2025-07-28 13:45:00', 18200.00, 'Completed'),
+(22, 19, '2025-08-11 09:30:00', 21700.00, 'Completed'),
+(23, 20, '2025-08-25 14:00:00', 21000.00, 'Completed'),
+(24, 21, '2025-09-08 11:15:00', 27600.00, 'Completed'),
+(25, 22, '2025-10-13 10:30:00', 40500.00, 'Completed'),
+(26, 23, '2025-10-27 12:00:00', 38000.00, 'Completed'),
+(27, 24, '2025-11-10 09:00:00', 32500.00, 'Completed'),
+(28, 25, '2025-11-24 14:30:00', 35000.00, 'Completed'),
+(29, 26, '2025-12-08 11:00:00', 70000.00, 'Completed'),
+(18, 27, '2026-01-15 10:00:00', 46500.00, 'Completed'),
+-- Expansion batch (TransactionIDs 28–92)
+(31, 38, '2024-02-20 10:00:00', 16500.00, 'Completed'),
+(32, 39, '2024-02-28 11:00:00', 11200.00, 'Completed'),
+(33, 40, '2024-03-18 10:00:00', 41000.00, 'Completed'),
+(34, 41, '2024-03-25 10:00:00', 12500.00, 'Completed'),
+(35, 42, '2024-03-28 10:00:00', 31000.00, 'Completed'),
+(36, 43, '2024-04-02 10:00:00', 24000.00, 'Completed'),
+(37, 44, '2024-04-08 10:00:00', 49000.00, 'Completed'),
+(38, 45, '2024-04-15 10:00:00', 19500.00, 'Completed'),
+(39, 46, '2024-04-22 10:00:00', 28500.00, 'Completed'),
+(40, 47, '2024-05-01 10:00:00', 37000.00, 'Completed'),
+(41, 28, '2024-05-02 10:00:00', 21000.00, 'Completed'),
+(42, 29, '2024-05-10 10:00:00', 36000.00, 'Completed'),
+(43, 30, '2024-05-18 10:00:00', 44500.00, 'Completed'),
+(44, 31, '2024-05-25 10:00:00', 38000.00, 'Completed'),
+(45, 32, '2024-06-05 10:00:00', 41500.00, 'Completed'),
+(46, 33, '2024-07-15 10:00:00', 20700.00, 'Completed'),
+(47, 34, '2024-07-22 10:00:00', 36000.00, 'Completed'),
+(48, 35, '2024-07-29 10:00:00', 54000.00, 'Completed'),
+(49, 36, '2024-08-01 10:00:00', 23700.00, 'Completed'),
+(50, 37, '2024-08-10 10:00:00', 32000.00, 'Completed'),
+(51, 28, '2024-08-20 10:00:00', 25000.00, 'Completed'),
+(52, 29, '2024-08-27 10:00:00', 67500.00, 'Completed'),
+(53, 30, '2024-09-05 10:00:00', 39000.00, 'Completed'),
+(54, 31, '2024-10-15 10:00:00', 71500.00, 'Completed'),
+(55, 32, '2024-10-22 10:00:00', 22200.00, 'Completed'),
+(56, 33, '2024-11-01 10:00:00', 27000.00, 'Completed'),
+(57, 34, '2024-11-08 10:00:00', 47000.00, 'Completed'),
+(58, 35, '2024-11-15 10:00:00', 48000.00, 'Completed'),
+(59, 36, '2024-11-22 10:00:00', 39000.00, 'Completed'),
+(60, 37, '2024-12-01 10:00:00', 51500.00, 'Completed'),
+(61, 28, '2024-12-08 10:00:00', 94000.00, 'Completed'),
+(62, 29, '2025-01-22 10:00:00', 18200.00, 'Completed'),
+(63, 30, '2025-01-28 10:00:00', 33200.00, 'Completed'),
+(64, 31, '2025-02-04 10:00:00', 50500.00, 'Completed'),
+(65, 32, '2025-02-08 10:00:00', 34200.00, 'Completed'),
+(66, 33, '2025-02-18 10:00:00', 41700.00, 'Completed'),
+(67, 34, '2025-02-22 10:00:00', 38700.00, 'Completed'),
+(68, 35, '2025-03-01 10:00:00', 29200.00, 'Completed'),
+(69, 36, '2025-04-14 10:00:00', 56500.00, 'Completed'),
+(70, 37, '2025-04-21 10:00:00', 43000.00, 'Completed'),
+(71, 28, '2025-04-28 10:00:00', 38000.00, 'Completed'),
+(72, 29, '2025-05-02 10:00:00', 35500.00, 'Completed'),
+(73, 30, '2025-05-15 10:00:00', 67500.00, 'Completed'),
+(74, 31, '2025-05-20 10:00:00', 26200.00, 'Completed'),
+(75, 32, '2025-06-14 10:00:00', 45700.00, 'Completed'),
+(76, 33, '2025-07-14 10:00:00', 44700.00, 'Completed'),
+(77, 34, '2025-07-21 10:00:00', 17200.00, 'Completed'),
+(78, 35, '2025-08-14 10:00:00', 30200.00, 'Completed'),
+(79, 36, '2025-09-15 10:00:00', 54500.00, 'Completed'),
+(80, 37, '2025-09-22 10:00:00', 77500.00, 'Completed'),
+(81, 28, '2025-10-14 10:00:00', 57700.00, 'Completed'),
+(82, 29, '2025-10-21 10:00:00', 43700.00, 'Completed'),
+(83, 30, '2025-10-28 10:00:00', 88500.00, 'Completed'),
+(84, 31, '2025-11-14 10:00:00', 55500.00, 'Completed'),
+(85, 32, '2025-11-18 10:00:00', 51700.00, 'Completed'),
+(86, 33, '2025-11-25 10:00:00', 40700.00, 'Completed'),
+(87, 34, '2025-12-02 10:00:00', 37700.00, 'Completed'),
+(88, 35, '2025-12-15 10:00:00', 52700.00, 'Completed'),
+(89, 36, '2026-01-18 10:00:00', 27700.00, 'Completed'),
+(90, 37, '2026-01-24 10:00:00', 23200.00, 'Completed'),
+(91, 28, '2026-01-29 10:00:00', 48700.00, 'Completed'),
+(92, 29, '2026-02-15 10:00:00', 43700.00, 'Completed'),
+(93, 30, '2026-02-20 10:00:00', 49200.00, 'Completed'),
+(94, 31, '2026-02-24 10:00:00', 45700.00, 'Completed'),
+(95, 32, '2026-03-15 10:00:00', 61700.00, 'Completed');
 
--- Reviews
-INSERT INTO Review
-(UserID, ListingID, rating_number, review_subject, review_description)
-VALUES
-(1, 4, 5, 'Great Truck', 'Vehicle was exactly as described and delivery was smooth.'),
-(2, 2, 4, 'Good Experience', 'Seller was responsive and the car was in excellent condition.'),
-(7, 6, 5, 'Smooth purchase', 'The Camry was clean and the process was easy.'),
-(8, 7, 4, 'Good value', 'The Elantra was affordable and in great condition.'),
-(9, 9, 5, 'Luxury car experience', 'The BMW was exactly what I expected.'),
-(4, 1, 4, 'Reliable car', 'The Civic was a good purchase for daily driving.'),
-(1, 3, 5, 'Great electric car', 'The Tesla was clean and fun to drive.');
+
+-- ─────────────────────────────────────────────────────────────────
+-- PAYMENT  (92 rows — one per transaction)
+-- ─────────────────────────────────────────────────────────────────
+INSERT INTO Payment (TransactionID, payment_method, payment_status, payment_date, amount_paid) VALUES
+(1,  'Bank Transfer', 'Paid', '2026-03-15 10:15:00', 32000.00),
+(2,  'Credit Card',   'Paid', '2026-04-01 14:45:00', 19500.00),
+(3,  'Credit Card',   'Paid', '2026-04-10 11:30:00', 21000.00),
+(4,  'Bank Transfer', 'Paid', '2026-04-18 15:20:00', 17600.00),
+(5,  'Cashier Check', 'Paid', '2026-05-05 12:15:00', 33500.00),
+(6,  'Credit Card',   'Paid', '2026-05-12 10:00:00', 18300.00),
+(7,  'Bank Transfer', 'Paid', '2026-05-20 16:45:00', 28000.00),
+(8,  'Credit Card',   'Paid', '2025-01-20 10:20:00', 20500.00),
+(9,  'Credit Card',   'Paid', '2025-02-05 13:50:00', 16200.00),
+(10, 'Bank Transfer', 'Paid', '2025-02-15 11:25:00', 42500.00),
+(11, 'Credit Card',   'Paid', '2025-03-01 10:05:00', 18900.00),
+(12, 'Bank Transfer', 'Paid', '2025-03-18 14:20:00', 24500.00),
+(13, 'Bank Transfer', 'Paid', '2025-04-10 10:50:00', 37000.00),
+(14, 'Credit Card',   'Paid', '2025-04-25 12:20:00', 28500.00),
+(15, 'Bank Transfer', 'Paid', '2025-05-08 09:35:00', 46000.00),
+(16, 'Cashier Check', 'Paid', '2025-06-07 11:20:00', 68000.00),
+(17, 'Bank Transfer', 'Paid', '2025-07-14 10:20:00', 51500.00),
+(18, 'Bank Transfer', 'Paid', '2025-07-28 14:05:00', 18200.00),
+(19, 'Credit Card',   'Paid', '2025-08-11 09:50:00', 21700.00),
+(20, 'Bank Transfer', 'Paid', '2025-08-25 14:20:00', 21000.00),
+(21, 'Credit Card',   'Paid', '2025-09-08 11:35:00', 27600.00),
+(22, 'Cashier Check', 'Paid', '2025-10-13 10:50:00', 40500.00),
+(23, 'Bank Transfer', 'Paid', '2025-10-27 12:20:00', 38000.00),
+(24, 'Cashier Check', 'Paid', '2025-11-10 09:20:00', 32500.00),
+(25, 'Bank Transfer', 'Paid', '2025-11-24 14:50:00', 35000.00),
+(26, 'Cashier Check', 'Paid', '2025-12-08 11:20:00', 70000.00),
+(27, 'Bank Transfer', 'Paid', '2026-01-15 10:20:00', 46500.00),
+(28, 'Credit Card',   'Paid', '2024-02-20 10:15:00', 16500.00),
+(29, 'Credit Card',   'Paid', '2024-02-28 11:15:00', 11200.00),
+(30, 'Bank Transfer', 'Paid', '2024-03-18 10:15:00', 41000.00),
+(31, 'Credit Card',   'Paid', '2024-03-25 10:15:00', 12500.00),
+(32, 'Bank Transfer', 'Paid', '2024-03-28 10:15:00', 31000.00),
+(33, 'Credit Card',   'Paid', '2024-04-02 10:15:00', 24000.00),
+(34, 'Bank Transfer', 'Paid', '2024-04-08 10:15:00', 49000.00),
+(35, 'Credit Card',   'Paid', '2024-04-15 10:15:00', 19500.00),
+(36, 'Bank Transfer', 'Paid', '2024-04-22 10:15:00', 28500.00),
+(37, 'Bank Transfer', 'Paid', '2024-05-01 10:15:00', 37000.00),
+(38, 'Credit Card',   'Paid', '2024-05-02 10:15:00', 21000.00),
+(39, 'Bank Transfer', 'Paid', '2024-05-10 10:15:00', 36000.00),
+(40, 'Bank Transfer', 'Paid', '2024-05-18 10:15:00', 44500.00),
+(41, 'Cashier Check', 'Paid', '2024-05-25 10:15:00', 38000.00),
+(42, 'Bank Transfer', 'Paid', '2024-06-05 10:15:00', 41500.00),
+(43, 'Credit Card',   'Paid', '2024-07-15 10:15:00', 20700.00),
+(44, 'Bank Transfer', 'Paid', '2024-07-22 10:15:00', 36000.00),
+(45, 'Bank Transfer', 'Paid', '2024-07-29 10:15:00', 54000.00),
+(46, 'Credit Card',   'Paid', '2024-08-01 10:15:00', 23700.00),
+(47, 'Credit Card',   'Paid', '2024-08-10 10:15:00', 32000.00),
+(48, 'Bank Transfer', 'Paid', '2024-08-20 10:15:00', 25000.00),
+(49, 'Cashier Check', 'Paid', '2024-08-27 10:15:00', 67500.00),
+(50, 'Bank Transfer', 'Paid', '2024-09-05 10:15:00', 39000.00),
+(51, 'Cashier Check', 'Paid', '2024-10-15 10:15:00', 71500.00),
+(52, 'Credit Card',   'Paid', '2024-10-22 10:15:00', 22200.00),
+(53, 'Bank Transfer', 'Paid', '2024-11-01 10:15:00', 27000.00),
+(54, 'Bank Transfer', 'Paid', '2024-11-08 10:15:00', 47000.00),
+(55, 'Bank Transfer', 'Paid', '2024-11-15 10:15:00', 48000.00),
+(56, 'Bank Transfer', 'Paid', '2024-11-22 10:15:00', 39000.00),
+(57, 'Cashier Check', 'Paid', '2024-12-01 10:15:00', 51500.00),
+(58, 'Cashier Check', 'Paid', '2024-12-08 10:15:00', 94000.00),
+(59, 'Credit Card',   'Paid', '2025-01-22 10:15:00', 18200.00),
+(60, 'Bank Transfer', 'Paid', '2025-01-28 10:15:00', 33200.00),
+(61, 'Bank Transfer', 'Paid', '2025-02-04 10:15:00', 50500.00),
+(62, 'Credit Card',   'Paid', '2025-02-08 10:15:00', 34200.00),
+(63, 'Bank Transfer', 'Paid', '2025-02-18 10:15:00', 41700.00),
+(64, 'Bank Transfer', 'Paid', '2025-02-22 10:15:00', 38700.00),
+(65, 'Credit Card',   'Paid', '2025-03-01 10:15:00', 29200.00),
+(66, 'Bank Transfer', 'Paid', '2025-04-14 10:15:00', 56500.00),
+(67, 'Bank Transfer', 'Paid', '2025-04-21 10:15:00', 43000.00),
+(68, 'Bank Transfer', 'Paid', '2025-04-28 10:15:00', 38000.00),
+(69, 'Bank Transfer', 'Paid', '2025-05-02 10:15:00', 35500.00),
+(70, 'Cashier Check', 'Paid', '2025-05-15 10:15:00', 67500.00),
+(71, 'Credit Card',   'Paid', '2025-05-20 10:15:00', 26200.00),
+(72, 'Bank Transfer', 'Paid', '2025-06-14 10:15:00', 45700.00),
+(73, 'Bank Transfer', 'Paid', '2025-07-14 10:15:00', 44700.00),
+(74, 'Credit Card',   'Paid', '2025-07-21 10:15:00', 17200.00),
+(75, 'Credit Card',   'Paid', '2025-08-14 10:15:00', 30200.00),
+(76, 'Bank Transfer', 'Paid', '2025-09-15 10:15:00', 54500.00),
+(77, 'Cashier Check', 'Paid', '2025-09-22 10:15:00', 77500.00),
+(78, 'Bank Transfer', 'Paid', '2025-10-14 10:15:00', 57700.00),
+(79, 'Bank Transfer', 'Paid', '2025-10-21 10:15:00', 43700.00),
+(80, 'Cashier Check', 'Paid', '2025-10-28 10:15:00', 88500.00),
+(81, 'Cashier Check', 'Paid', '2025-11-14 10:15:00', 55500.00),
+(82, 'Bank Transfer', 'Paid', '2025-11-18 10:15:00', 51700.00),
+(83, 'Bank Transfer', 'Paid', '2025-11-25 10:15:00', 40700.00),
+(84, 'Credit Card',   'Paid', '2025-12-02 10:15:00', 37700.00),
+(85, 'Bank Transfer', 'Paid', '2025-12-15 10:15:00', 52700.00),
+(86, 'Credit Card',   'Paid', '2026-01-18 10:15:00', 27700.00),
+(87, 'Credit Card',   'Paid', '2026-01-24 10:15:00', 23200.00),
+(88, 'Bank Transfer', 'Paid', '2026-01-29 10:15:00', 48700.00),
+(89, 'Bank Transfer', 'Paid', '2026-02-15 10:15:00', 43700.00),
+(90, 'Bank Transfer', 'Paid', '2026-02-20 10:15:00', 49200.00),
+(91, 'Cashier Check', 'Paid', '2026-02-24 10:15:00', 45700.00),
+(92, 'Bank Transfer', 'Paid', '2026-03-15 10:15:00', 61700.00);
+
+
+-- ─────────────────────────────────────────────────────────────────
+-- DELIVERIES  (92 rows — one per transaction)
+-- ─────────────────────────────────────────────────────────────────
+INSERT INTO Deliveries (TransactionID, delivery_address, delivery_status, delivery_date) VALUES
+(1,  '123 Main St, Seattle, WA',           'Delivered', '2026-03-20'),
+(2,  '456 Pine St, Bellevue, WA',          'Delivered', '2026-04-05'),
+(3,  '222 Hill Ave, Tacoma, WA',           'Delivered', '2026-04-14'),
+(4,  '333 Market St, Redmond, WA',         'Delivered', '2026-04-22'),
+(5,  '444 River Rd, Renton, WA',           'Delivered', '2026-05-09'),
+(6,  '321 Cedar Rd, Lynnwood, WA',         'Delivered', '2026-05-16'),
+(7,  '123 Main St, Seattle, WA',           'Scheduled', '2026-05-25'),
+(8,  '101 Birch Ln, Seattle, WA',          'Delivered', '2025-01-27'),
+(9,  '202 Fir St, Bellevue, WA',           'Delivered', '2025-02-12'),
+(10, '303 Elm Ave, Redmond, WA',           'Delivered', '2025-02-22'),
+(11, '404 Walnut Blvd, Kirkland, WA',      'Delivered', '2025-03-08'),
+(12, '505 Spruce Dr, Bothell, WA',         'Delivered', '2025-03-25'),
+(13, '606 Cedar Way, Shoreline, WA',       'Delivered', '2025-04-17'),
+(14, '707 Willow Ct, Renton, WA',          'Delivered', '2025-05-01'),
+(15, '808 Aspen Pl, Kent, WA',             'Delivered', '2025-05-14'),
+(16, '909 Poplar St, Tacoma, WA',          'Delivered', '2025-06-13'),
+(17, '11 Maple Ct, Seattle, WA',           'Delivered', '2025-07-19'),
+(18, '22 Cedar Ave, Bellevue, WA',         'Delivered', '2025-08-02'),
+(19, '33 Pine Rd, Lynnwood, WA',           'Delivered', '2025-08-16'),
+(20, '44 Oak St, Kirkland, WA',            'Delivered', '2025-08-30'),
+(21, '55 Elm Blvd, Redmond, WA',           'Delivered', '2025-09-14'),
+(22, '66 Birch Way, Bothell, WA',          'Delivered', '2025-10-19'),
+(23, '77 Fir Ln, Shoreline, WA',           'Delivered', '2025-11-02'),
+(24, '88 Spruce Dr, Renton, WA',           'Delivered', '2025-11-16'),
+(25, '99 Willow Ave, Kent, WA',            'Delivered', '2025-11-30'),
+(26, '1 Harbor Blvd, Tacoma, WA',          'Delivered', '2025-12-16'),
+(27, '808 Aspen Pl, Kent, WA',             'Scheduled', '2026-01-22'),
+(28, '101 Birch Ln, Seattle, WA',          'Delivered', '2024-02-26'),
+(29, '202 Fir St, Bellevue, WA',           'Delivered', '2024-03-05'),
+(30, '303 Elm Ave, Redmond, WA',           'Delivered', '2024-03-24'),
+(31, '404 Walnut Blvd, Kirkland, WA',      'Delivered', '2024-03-31'),
+(32, '505 Spruce Dr, Tacoma, WA',          'Delivered', '2024-04-03'),
+(33, '606 Cedar Way, Shoreline, WA',       'Delivered', '2024-04-08'),
+(34, '707 Willow Ct, Renton, WA',          'Delivered', '2024-04-14'),
+(35, '808 Aspen Pl, Bothell, WA',          'Delivered', '2024-04-21'),
+(36, '909 Poplar St, Kent, WA',            'Delivered', '2024-04-28'),
+(37, '1010 Oak Blvd, Everett, WA',         'Delivered', '2024-05-07'),
+(38, '123 Bellevue Way, Bellevue, WA',     'Delivered', '2024-05-08'),
+(39, '89 Capitol Hill Rd, Seattle, WA',    'Delivered', '2024-05-16'),
+(40, '417 Redmond Way, Redmond, WA',       'Delivered', '2024-05-24'),
+(41, '55 Kirkland Ave, Kirkland, WA',      'Delivered', '2024-05-31'),
+(42, '12 Tacoma Blvd, Tacoma, WA',         'Delivered', '2024-06-11'),
+(43, '330 Everett Ave, Everett, WA',       'Delivered', '2024-07-21'),
+(44, '201 196th St SW, Lynnwood, WA',      'Delivered', '2024-07-28'),
+(45, '98 Bothell Way, Bothell, WA',        'Delivered', '2024-08-04'),
+(46, '750 Sunset Blvd, Renton, WA',        'Delivered', '2024-08-07'),
+(47, '44 Meeker St, Kent, WA',             'Delivered', '2024-08-16'),
+(48, '123 Bellevue Way, Bellevue, WA',     'Delivered', '2024-08-26'),
+(49, '89 Capitol Hill Rd, Seattle, WA',    'Delivered', '2024-09-02'),
+(50, '417 Redmond Way, Redmond, WA',       'Delivered', '2024-09-11'),
+(51, '55 Kirkland Ave, Kirkland, WA',      'Delivered', '2024-10-21'),
+(52, '12 Tacoma Blvd, Tacoma, WA',         'Delivered', '2024-10-28'),
+(53, '330 Everett Ave, Everett, WA',       'Delivered', '2024-11-07'),
+(54, '201 196th St SW, Lynnwood, WA',      'Delivered', '2024-11-14'),
+(55, '98 Bothell Way, Bothell, WA',        'Delivered', '2024-11-21'),
+(56, '750 Sunset Blvd, Renton, WA',        'Delivered', '2024-11-28'),
+(57, '44 Meeker St, Kent, WA',             'Delivered', '2024-12-07'),
+(58, '123 Bellevue Way, Bellevue, WA',     'Delivered', '2024-12-14'),
+(59, '89 Capitol Hill Rd, Seattle, WA',    'Delivered', '2025-01-28'),
+(60, '417 Redmond Way, Redmond, WA',       'Delivered', '2025-02-03'),
+(61, '55 Kirkland Ave, Kirkland, WA',      'Delivered', '2025-02-10'),
+(62, '12 Tacoma Blvd, Tacoma, WA',         'Delivered', '2025-02-14'),
+(63, '330 Everett Ave, Everett, WA',       'Delivered', '2025-02-24'),
+(64, '201 196th St SW, Lynnwood, WA',      'Delivered', '2025-02-28'),
+(65, '98 Bothell Way, Bothell, WA',        'Delivered', '2025-03-07'),
+(66, '750 Sunset Blvd, Renton, WA',        'Delivered', '2025-04-20'),
+(67, '44 Meeker St, Kent, WA',             'Delivered', '2025-04-27'),
+(68, '123 Bellevue Way, Bellevue, WA',     'Delivered', '2025-05-04'),
+(69, '89 Capitol Hill Rd, Seattle, WA',    'Delivered', '2025-05-08'),
+(70, '417 Redmond Way, Redmond, WA',       'Delivered', '2025-05-21'),
+(71, '55 Kirkland Ave, Kirkland, WA',      'Delivered', '2025-05-26'),
+(72, '12 Tacoma Blvd, Tacoma, WA',         'Delivered', '2025-06-20'),
+(73, '330 Everett Ave, Everett, WA',       'Delivered', '2025-07-20'),
+(74, '201 196th St SW, Lynnwood, WA',      'Delivered', '2025-07-27'),
+(75, '98 Bothell Way, Bothell, WA',        'Delivered', '2025-08-20'),
+(76, '750 Sunset Blvd, Renton, WA',        'Delivered', '2025-09-21'),
+(77, '44 Meeker St, Kent, WA',             'Delivered', '2025-09-28'),
+(78, '123 Bellevue Way, Bellevue, WA',     'Delivered', '2025-10-20'),
+(79, '89 Capitol Hill Rd, Seattle, WA',    'Delivered', '2025-10-27'),
+(80, '417 Redmond Way, Redmond, WA',       'Delivered', '2025-11-03'),
+(81, '55 Kirkland Ave, Kirkland, WA',      'Delivered', '2025-11-20'),
+(82, '12 Tacoma Blvd, Tacoma, WA',         'Delivered', '2025-11-24'),
+(83, '330 Everett Ave, Everett, WA',       'Delivered', '2025-12-01'),
+(84, '201 196th St SW, Lynnwood, WA',      'Delivered', '2025-12-08'),
+(85, '98 Bothell Way, Bothell, WA',        'Delivered', '2025-12-21'),
+(86, '750 Sunset Blvd, Renton, WA',        'Delivered', '2026-01-24'),
+(87, '44 Meeker St, Kent, WA',             'Delivered', '2026-01-30'),
+(88, '123 Bellevue Way, Bellevue, WA',     'Delivered', '2026-02-04'),
+(89, '89 Capitol Hill Rd, Seattle, WA',    'Delivered', '2026-02-21'),
+(90, '417 Redmond Way, Redmond, WA',       'Delivered', '2026-02-26'),
+(91, '55 Kirkland Ave, Kirkland, WA',      'Delivered', '2026-02-28'),
+(92, '12 Tacoma Blvd, Tacoma, WA',         'Delivered', '2026-03-21');
+
+
+-- ─────────────────────────────────────────────────────────────────
+-- REVIEWS  (one per sold listing that has a transaction)
+-- ─────────────────────────────────────────────────────────────────
+INSERT INTO Review (UserID, ListingID, rating_number, review_subject, review_description) VALUES
+(1,  4,  5, 'Great Truck',           'Vehicle was exactly as described and delivery was smooth.'),
+(2,  2,  4, 'Good Experience',       'Seller was responsive and the car was in excellent condition.'),
+(7,  6,  5, 'Smooth purchase',       'The Camry was clean and the process was easy.'),
+(8,  7,  4, 'Good value',            'The Elantra was affordable and in great condition.'),
+(9,  9,  5, 'Luxury car experience', 'The BMW was exactly what I expected.'),
+(4,  1,  4, 'Reliable car',          'The Civic was a good purchase for daily driving.'),
+(1,  3,  5, 'Great electric car',    'The Tesla was clean and fun to drive.'),
+(11, 11, 3, 'Decent deal',           'Car was okay but pickup coordination was slow.'),
+(12, 12, 4, 'Solid budget car',      'Malibu had minor cosmetic issues. Price was fair.'),
+(13, 13, 4, 'Great SUV',             'Discovery was spacious and well maintained.'),
+(14, 14, 3, 'Average experience',    'Altima was clean but listing photos were misleading.'),
+(15, 15, 5, 'Excellent Sonata',      'Immaculate condition, fast delivery, great seller.'),
+(16, 16, 5, 'Love the Tacoma',       'Perfect truck, seller was professional and fast.'),
+(17, 17, 4, 'Nice Charger',          'Seller disclosed accident history upfront. Good price.'),
+(18, 18, 5, 'Best car I own',        'Tesla Model Y exceeded expectations. Worth every cent.'),
+(19, 19, 5, 'Dream Cayenne',         'Pristine Porsche, seamless transaction. Top seller.'),
+(20, 20, 5, 'Tesla Performance',     'Incredible car. Fast delivery. Seller was 10/10.'),
+(21, 21, 4, 'Good Nissan Leaf',      'EV range as advertised. Delivery was on time.'),
+(22, 22, 4, 'Solid BMW i3',          'Good condition, honest seller. Would buy again.'),
+(23, 23, 4, 'Fusion Hybrid ok',      'Good fuel economy. Minor interior wear not listed.'),
+(24, 24, 5, 'New Civic love it',     'Barely used, perfect delivery. Zero complaints.'),
+(25, 25, 5, 'BMW 530i stunning',     'Perfect condition, delivered ahead of schedule.'),
+(26, 26, 4, 'Great F-150',           'Solid work truck. Seller honest about mileage.'),
+(27, 27, 5, 'CR-V is perfect',       'Like new. Best used car buying experience.'),
+(28, 28, 5, 'RAV4 flawless',         'Spotless interior. Seller communicated perfectly.'),
+(29, 29, 5, 'Model S is elite',      'Tesla in showroom condition. No regrets.'),
+(30, 18, 5, 'Second Tesla buy',      'Bought another Model Y. Platform never disappoints.'),
+(41, 31, 4, 'Solid daily driver',    'Vehicle was in good condition and the seller was responsive throughout.'),
+(42, 32, 3, 'Small but okay',        'The Spark was tiny but served its purpose. A few cosmetic issues not mentioned.'),
+(43, 33, 5, 'BMW X3 perfection',     'Immaculate SUV, exactly as listed. Smooth delivery and great communication.'),
+(44, 34, 3, 'Decent for price',      'Car had some wear not fully disclosed, but the price reflected it fairly.'),
+(45, 35, 5, 'Great family SUV',      'The Pilot was spacious and well-maintained. Perfect for the whole family.'),
+(46, 36, 4, 'Clean Accord',          'Very clean interior and exterior. Seller was straightforward and easy to work with.'),
+(47, 37, 5, 'Amazing Tesla',         'Purchased a Model 3 and could not be happier. Fast, clean, and delivered perfectly.'),
+(48, 38, 4, 'Good value Altima',     'Solid Altima at a fair price. Delivery was on time and the car ran great.'),
+(49, 39, 5, 'Tucson is flawless',    'Brand new feel on a used car. Hyundai quality really shows. Zero complaints.'),
+(50, 40, 5, 'Best family SUV',       'The Highlander had everything we needed. Plenty of space and drives like new.'),
+(31, 41, 4, 'Reliable Civic',        'Clean Honda Civic with low miles. Seller was honest about the car history.'),
+(32, 42, 4, 'Workhorse truck',       'Ford F-150 handled everything I threw at it. Good price for the condition.'),
+(33, 43, 5, 'Model Y is the one',    'Tesla Model Y was in near-new condition. Best EV purchase decision I have made.'),
+(34, 44, 5, 'Luxury at its best',    'The BMW 330i was pristine. Cashier check process was smooth and secure.'),
+(35, 45, 5, 'New Tacoma is great',   '2023 Tacoma with very low miles. Off-road ready straight from the seller.'),
+(36, 46, 4, 'Solid EV commuter',     'Nissan Leaf handled my daily commute perfectly. Great range for the price.'),
+(37, 47, 5, 'VW ID.4 underrated',    'The ID.4 gets overlooked but it is a fantastic EV. Seller was very helpful.'),
+(38, 48, 5, 'Near new Tesla',        'Tesla Model 3 with only 8k miles felt brand new. Worth every penny.'),
+(39, 49, 4, 'Sporty Elantra',        'N Line trim is a blast to drive. Car was as described and delivery was fast.'),
+(40, 50, 5, 'New Sportage love',     'Kia Sportage 2023 was spotless inside and out. Highly recommend this seller.'),
+(31, 51, 4, 'Good EV for price',     'Bolt EV is great value. A few minor scuffs but nothing major. Happy overall.'),
+(32, 52, 5, 'Model S stunner',       'Tesla Model S in beautiful condition. The seller was professional and punctual.'),
+(33, 53, 4, 'Solid Jeep',            'Grand Cherokee had great off-road capability. Some high mileage but ran strong.'),
+(34, 54, 5, 'Dream Cayenne',         'Porsche Cayenne was everything I hoped for. Luxury SUV in flawless condition.'),
+(35, 55, 4, 'Reliable Corolla',      'Toyota Corolla is always dependable. Clean car and straightforward sale process.'),
+(36, 56, 5, 'Accord is top tier',    '2022 Accord Sport exceeded expectations. Low miles and a very fair price.'),
+(37, 57, 5, 'Barely used Tesla',     'Model 3 with 10k miles felt like it just left the showroom. Incredible deal.'),
+(38, 58, 5, 'New F-150 beast',       '2023 F-150 Lariat was impressive. Loaded with features and great condition.'),
+(39, 59, 5, 'Telluride is perfect',  'Kia Telluride had plenty of space for the family. Seller was honest and fast.'),
+(40, 60, 5, 'BMW 530i stunning',     'The 530i drove like a dream. Premium feel throughout and no hidden issues.'),
+(31, 61, 5, 'Model S Plaid insane',  'Tesla Model S Plaid was mind-blowing. Fastest car I have ever driven. Perfect.'),
+(32, 62, 3, 'Had minor issues',      'Malibu was okay but had a few electrical quirks not mentioned in the listing.'),
+(33, 63, 5, 'RAV4 never disappoints','Toyota quality at its finest. The RAV4 was clean and the process was easy.'),
+(34, 64, 5, 'Second Tesla for us',   'Our family now has two Teslas. Model Y Long Range is elite.'),
+(35, 65, 5, 'Best new Tucson',       'Hyundai Tucson N Line 2023 was spotless. Sport suspension makes it fun.'),
+(36, 66, 4, 'Huge and comfy',        'Toyota Highlander Platinum was luxurious and roomy. Great for road trips.'),
+(37, 67, 5, 'ID.4 is underrated',    'Volkswagen ID.4 Pro Plus was a fantastic deal. EV range exceeded expectations.'),
+(38, 68, 4, 'Compact truck gem',     'Ford Maverick is the most practical truck I have owned. Low miles and great deal.'),
+(39, 69, 5, 'Latest Tesla perf',     '2024 Model 3 Performance was absurdly fast and handled beautifully.'),
+(40, 70, 5, 'EV6 is stunning',       'Kia EV6 Wind is the best looking EV on the market. Excellent range.'),
+(31, 71, 5, 'Ioniq 6 gorgeous',      'Hyundai Ioniq 6 looked beautiful and drove even better. Highly recommend.'),
+(32, 72, 4, '4Runner built different','Toyota 4Runner is unstoppable. High mileage but ran perfectly.'),
+(33, 73, 5, 'M3 is incredible',      'BMW M3 was a dream come true. Pure driving experience and impeccable condition.'),
+(34, 74, 4, 'Nice Altima upgrade',   '2023 Nissan Altima Platinum was a big step up. Delivered ahead of schedule.'),
+(35, 75, 5, 'Brand new Model Y',     '2024 Model Y with only 5k miles basically brand new. Perfect transaction.'),
+(36, 76, 5, '2024 Taco is fire',     'New Tacoma TRD Plus was loaded. Off-road beast in immaculate condition.'),
+(37, 77, 3, 'Small and quirky',      'Kia Soul was fun and cheap but had some wear. Decent deal overall.'),
+(38, 78, 5, 'Best Accord yet',       '2023 Accord EX-L was the nicest used car I have purchased. Zero issues.'),
+(39, 79, 5, 'Newest Model 3',        '2024 Tesla Model 3 Long Range was barely used. Range and comfort unbeatable.'),
+(40, 80, 5, 'Cayenne never gets old','Porsche Cayenne 2023 was flawless inside and out. Seller was top notch.'),
+(31, 81, 5, 'King Ranch is luxury',  'F-150 King Ranch felt like a luxury vehicle. Leather, tech, everything perfect.'),
+(32, 82, 5, 'Telluride forever',     '2024 Telluride SX was the best car buying experience I have ever had.'),
+(33, 83, 5, 'Model S hits different','Tesla Model S 2024 Long Range was breathtaking. Fast, quiet, and pristine.'),
+(34, 84, 5, 'X5 worth every cent',   'BMW X5 xDrive in perfect condition. Premium SUV that delivered on every promise.'),
+(35, 85, 4, 'Tundra is a tank',      'Toyota Tundra TRD Pro was built to last. Barely used and extremely capable.'),
+(36, 86, 5, 'Ioniq 6 amazing EV',    '2024 Ioniq 6 was effortlessly smooth. Best value EV on the market right now.'),
+(37, 87, 4, 'ID.4 solid choice',     '2024 VW ID.4 Pro was a great deal. EV range impressive and delivery fast.'),
+(38, 88, 5, 'Model Y long range wow','Tesla Model Y Long Range 2024 was nearly new. Best used car I have bought.'),
+(39, 89, 4, 'Bolt EV great value',   'Chevy Bolt EV 2024 is the best budget EV available. Low miles and clean.'),
+(40, 90, 5, 'New Corolla pristine',  '2024 Toyota Corolla with only 8k miles. Perfect first car, painless process.'),
+(31, 91, 5, 'Highlander is a tank',  '2024 Highlander Platinum was enormous and luxurious. Family loves it.'),
+(32, 92, 5, 'Another perfect Tesla', '2024 Model 3 Standard Range delivered quickly. Tesla quality never disappoints.'),
+(33, 93, 5, 'EV6 GT is a rocket',    'Kia EV6 GT was the fastest car I have ever driven. Insane performance EV.'),
+(34, 94, 5, 'New 330i is refined',   '2024 BMW 330i felt like a masterpiece. Tight handling and zero issues.'),
+(35, 95, 5, 'F-150 Tremor is beast', '2024 F-150 Tremor was loaded and capable. Best truck on the market bar none.');
