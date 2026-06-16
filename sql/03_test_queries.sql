@@ -1,66 +1,54 @@
 USE online_car_marketplace;
 
-SELECT
-    l.ListingID,
-    v.make,
-    v.model,
-    v.year,
-    i.status,
-    i.location
+SELECT 
+    v.body_style,
+    COUNT(*) AS quantity_in_stock
 FROM Inventory i
 JOIN Listing l ON i.ListingID = l.ListingID
 JOIN Vehicle v ON l.VIN = v.VIN
-WHERE i.status = 'Available';
+WHERE i.status = 'Available'
+GROUP BY v.body_style
+ORDER BY quantity_in_stock DESC;
 
-INSERT INTO Vehicle
-(VIN, make, model, year, trim, wheel_drive, body_style, num_seats)
-VALUES
-('3CZRU6H59MM123460', 'Honda', 'HR-V', 2022, 'Sport', 'AWD', 'SUV', 5);
-
-UPDATE Inventory
-SET quantity = 2
-WHERE InventoryID = 1;
-
-DELETE FROM Inventory
-WHERE InventoryID = 5;
-
-SELECT
-    v.make,
-    v.model,
-    COUNT(*) AS total_sales
+SELECT 
+    v.body_style,
+    COUNT(t.TransactionID) AS total_units_sold,
+    SUM(t.total_amount) AS total_revenue
 FROM Transactions t
 JOIN Listing l ON t.ListingID = l.ListingID
 JOIN Vehicle v ON l.VIN = v.VIN
-GROUP BY v.make, v.model
-ORDER BY total_sales DESC;
+WHERE t.transaction_status = 'Completed'
+GROUP BY v.body_style
+ORDER BY total_units_sold DESC;
+
+
+SELECT
+    cu.CustomerID,
+    CONCAT(u.first_name, ' ', u.last_name) AS customer_name,
+    u.city AS customer_city,
+    MAX(t.transaction_date) AS last_purchase_date,
+    ROUND(DATEDIFF(CURDATE(), MAX(t.transaction_date)) / 30.0, 1) AS months_since_purchase,
+    CASE
+        WHEN DATEDIFF(CURDATE(), MAX(t.transaction_date)) / 30.0 > 12 
+            THEN 'Inactive 12mo+'
+        WHEN DATEDIFF(CURDATE(), MAX(t.transaction_date)) / 30.0 > 6 
+            THEN 'Inactive 6mo+'
+        WHEN DATEDIFF(CURDATE(), MAX(t.transaction_date)) / 30.0 > 3 
+            THEN 'Inactive 3mo+'
+        ELSE 'Active'
+    END AS activity_status
+FROM Customer cu
+JOIN Users u ON cu.UserID = u.UserID
+LEFT JOIN Transactions t ON cu.CustomerID = t.CustomerID
+GROUP BY cu.CustomerID, u.first_name, u.last_name, u.city
+ORDER BY months_since_purchase DESC;
 
 SELECT
     v.make,
-    v.model,
-    COUNT(*) AS total_sales
-FROM Transactions t
-JOIN Listing l ON t.ListingID = l.ListingID
+    ROUND(AVG(DATEDIFF(CURDATE(), l.listed_date)), 1) AS avg_days_on_market
+FROM Listing l
 JOIN Vehicle v ON l.VIN = v.VIN
-GROUP BY v.make, v.model
-ORDER BY total_sales ASC;
-
-SELECT
-    u.UserID,
-    u.first_name,
-    u.last_name,
-    MAX(t.transaction_date) AS last_purchase
-FROM Users u
-JOIN Customer c ON u.UserID = c.UserID
-LEFT JOIN Transactions t ON c.CustomerID = t.CustomerID
-GROUP BY u.UserID, u.first_name, u.last_name;
-
-SELECT
-    u.first_name,
-    u.last_name,
-    v.make,
-    v.model
-FROM Users u
-JOIN Customer c ON u.UserID = c.UserID
-JOIN Transactions t ON c.CustomerID = t.CustomerID
-JOIN Listing l ON t.ListingID = l.ListingID
-JOIN Vehicle v ON l.VIN = v.VIN;
+JOIN Inventory i ON l.ListingID = i.ListingID
+WHERE i.status = 'Available'
+GROUP BY v.make
+ORDER BY avg_days_on_market DESC;
